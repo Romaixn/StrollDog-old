@@ -192,9 +192,6 @@
     "php": {
         "version": "7.4"
     },
-    "php-cs-fixer/diff": {
-        "version": "v2.0.2"
-    },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
     },

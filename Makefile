@@ -9,6 +9,12 @@ PHP      = $(PHP_CONT) php
 COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP_CONT) bin/console
 
+# Executables: vendors
+PHPUNIT       = ./vendor/bin/phpunit
+PHPSTAN       = ./vendor/bin/phpstan
+PHP_CS_FIXER  = ./vendor/bin/php-cs-fixer
+PHPMETRICS    = ./vendor/bin/phpmetrics
+
 # Misc
 .DEFAULT_GOAL = help
 .PHONY        = help build up start down logs sh composer vendor sf cc
@@ -51,3 +57,17 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+## —— Coding standards ✨ ——————————————————————————————————————————————————————
+cs: lint-php ## Run all coding standards checks
+
+static-analysis: stan ## Run the static analysis (PHPStan)
+
+stan: ## Run PHPStan
+	@$(PHP_CONT) $(PHPSTAN) analyse --memory-limit 1G
+
+lint-php: ## Lint files with php-cs-fixer
+	@$(PHP_CONT) $(PHP_CS_FIXER) fix --allow-risky=yes --dry-run
+
+fix-php: ## Fix files with php-cs-fixer
+	@$(PHP_CONT) $(PHP_CS_FIXER) fix --allow-risky=yes
