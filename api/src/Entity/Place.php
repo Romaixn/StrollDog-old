@@ -4,66 +4,84 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\PlaceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaceRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    types: ['https://schema.org/Place'],
+    normalizationContext: ['groups' => ['place:read']],
+    denormalizationContext: ['groups' => ['place:write']]
+)]
 class Place
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'CUSTOM'), ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[ORM\Column(type: 'uuid', unique: true)]
+    #[Groups(groups: ['place:read'])]
     private ?UuidInterface $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 5)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $postalCode = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(groups: ['place:read'])]
     private ?float $longitude = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(groups: ['place:read'])]
     private ?float $latitude = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Range(min: 0, max: 5)]
+    #[Groups(groups: ['place:read'])]
     private ?float $rating = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private ?string $influx = null;
 
     #[ORM\ManyToMany(targetEntity: Type::class, mappedBy: 'places')]
+    #[Groups(groups: ['place:read', 'place:write'])]
     private Collection $types;
 
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: Comment::class, orphanRemoval: true)]
+    #[Groups(groups: ['place:read'])]
     private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'places')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(groups: ['place:read'])]
     private ?User $creator = null;
 
     public function __construct()
