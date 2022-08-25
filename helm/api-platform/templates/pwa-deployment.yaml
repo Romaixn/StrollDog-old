@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "api-platform.fullname" . }}-pwa
+  name: {{ include "api-platform.fullname" . }}-client
   labels:
-    {{- include "api-platform.labelsPWA" . | nindent 4 }}
+    {{- include "api-platform.labelsclient" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "api-platform.selectorLabelsPWA" . | nindent 6 }}
+      {{- include "api-platform.selectorLabelsclient" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "api-platform.selectorLabelsPWA" . | nindent 8 }}
+        {{- include "api-platform.selectorLabelsclient" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -28,11 +28,11 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-pwa
+        - name: {{ .Chart.Name }}-client
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.pwa.image.repository }}:{{ .Values.pwa.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.pwa.image.pullPolicy }}
+          image: "{{ .Values.client.image.repository }}:{{ .Values.client.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.client.image.pullPolicy }}
           env:
             - name: NEXT_PUBLIC_ENTRYPOINT
               value: http://{{ include "api-platform.fullname" . }}

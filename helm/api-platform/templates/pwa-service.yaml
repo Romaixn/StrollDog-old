@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "api-platform.fullname" . }}-pwa
+  name: {{ include "api-platform.fullname" . }}-client
   labels:
-    {{- include "api-platform.labelsPWA" . | nindent 4 }}
+    {{- include "api-platform.labelsclient" . | nindent 4 }}
 spec:
   ports:
     - port: 3000
@@ -11,4 +11,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "api-platform.selectorLabelsPWA" . | nindent 4 }}
+    {{- include "api-platform.selectorLabelsclient" . | nindent 4 }}

@@ -8,22 +8,22 @@ services:
     volumes:
       - ./api:/srv/app
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.dev.ini:ro
-      # If you develop on Mac or Windows you can remove the vendor/ directory 
+      # If you develop on Mac or Windows you can remove the vendor/ directory
       #  from the bind-mount for better performance by enabling the next line:
       #- /srv/app/vendor
     environment:
-      # See https://xdebug.org/docs/all_settings#mode 
+      # See https://xdebug.org/docs/all_settings#mode
       XDEBUG_MODE: "${XDEBUG_MODE:-off}"
     extra_hosts:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
 
-  pwa:
+  client:
     build:
-      context: ./pwa
-      target: app_pwa_dev
+      context: ./client
+      target: app_client_dev
     volumes:
-      - ./pwa:/usr/src/pwa
+      - ./client:/usr/src/client
 
   caddy:
     volumes:

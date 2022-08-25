@@ -491,7 +491,7 @@
     "symfony/service-contracts": {
         "version": "v3.0.0"
     },
-    "symfony/stopwatch": {
+    "symfony/stoclienttch": {
         "version": "v6.0.0"
     },
     "symfony/string": {
