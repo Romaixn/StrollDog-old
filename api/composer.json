@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "guzzlehttp/guzzle": "^7.4",
+        "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "ramsey/uuid-doctrine": "^1.8",
