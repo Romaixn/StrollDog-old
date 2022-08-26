@@ -4,28 +4,36 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\TypeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TypeRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    types: ['https://schema.org/Type'],
+    normalizationContext: ['groups' => ['type:read']],
+    denormalizationContext: ['groups' => ['type:write']]
+)]
 class Type
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'CUSTOM'), ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[ORM\Column(type: 'uuid', unique: true)]
+    #[Groups(groups: ['type:read'])]
     private ?UuidInterface $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(groups: ['type:read', 'type:write'])]
     private ?string $name = null;
 
     #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'types')]
+    #[Groups(groups: ['type:read'])]
     private Collection $places;
 
     public function __construct()
