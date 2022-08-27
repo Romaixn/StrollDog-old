@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // tests/AuthenticationTest.php
 
 namespace App\Tests;
@@ -39,7 +41,9 @@ class AuthenticationTest extends ApiTestCase
 
         $json = $response->toArray();
         $this->assertResponseIsSuccessful();
-        $this->assertArrayHasKey('token', $json);
+        $this->assertArraySubset([
+            'token' => $json['token'],
+        ], $json);
 
         // test not authorized
         $client->request('GET', '/users');
