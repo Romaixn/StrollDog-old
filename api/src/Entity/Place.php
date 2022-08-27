@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\PlaceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlaceRepository;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,6 +25,17 @@ use Symfony\Component\Validator\Constraints as Assert;
     types: ['https://schema.org/Place'],
     normalizationContext: ['groups' => ['place:read']],
     denormalizationContext: ['groups' => ['place:write']]
+)]
+#[Get]
+#[GetCollection]
+#[Post(security: "is_granted('ROLE_USER')")]
+#[Patch(
+    security: "is_granted('ROLE_USER') and object.creator == user",
+    securityMessage: "Only the creator of the place can update it"
+)]
+#[Delete(
+    security: "is_granted('ROLE_USER') and object.creator == user",
+    securityMessage: "Only the creator of the place can delete it"
 )]
 class Place
 {
