@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
@@ -23,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['comment:write']]
 )]
 #[Get]
+#[GetCollection]
 #[Post(security: "is_granted('ROLE_USER')")]
 class Comment
 {

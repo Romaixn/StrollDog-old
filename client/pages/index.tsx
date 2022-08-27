@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { Layout } from '../components/admin/Layout'
 
 const Home: NextPage = () => {
   return (
