@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use App\State\PlacePostProcessor;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,7 +29,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[Get]
 #[GetCollection]
-#[Post(security: "is_granted('ROLE_USER')")]
+#[Post(
+    security: "is_granted('ROLE_USER')",
+    processor: PlacePostProcessor::class
+)]
 #[Patch(
     security: "is_granted('ROLE_USER') and object.creator == user",
     securityMessage: "Only the creator of the place can update it"
