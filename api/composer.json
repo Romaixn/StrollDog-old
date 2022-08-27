@@ -36,6 +36,7 @@
     "require-dev": {
         "api-platform/schema-generator": "^4.0",
         "friendsofphp/php-cs-fixer": "^3.10",
+        "hautelook/alice-bundle": "^2.11",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^1.8",
         "phpstan/phpstan-symfony": "^1.2",

@@ -10,14 +10,14 @@ COMPOSER = $(PHP_CONT) composer
 SYMFONY  = $(PHP_CONT) bin/console
 
 # Executables: vendors
-PHPUNIT       = ./vendor/bin/phpunit
+PHPUNIT       = ./bin/phpunit
 PHPSTAN       = ./vendor/bin/phpstan
 PHP_CS_FIXER  = ./vendor/bin/php-cs-fixer
 PHPMETRICS    = ./vendor/bin/phpmetrics
 
 # Misc
 .DEFAULT_GOAL = help
-.PHONY        = help build up start down logs sh composer vendor sf cc
+.PHONY        :
 
 ## —— 🎵 🐳 The Symfony Docker Makefile 🐳 🎵 ——————————————————————————————————
 help: ## Outputs this help screen
@@ -57,6 +57,15 @@ sf: ## List all Symfony commands or pass the parameter "c=" to run a given comma
 
 cc: c=c:c ## Clear the cache
 cc: sf
+
+## —— Tests ✅ —————————————————————————————————————————————————————————————————
+test: ## Run tests with optionnal suite and filter
+	@$(eval testsuite ?= 'all')
+	@$(eval filter ?= '.')
+	@$(PHPUNIT) --testsuite=$(testsuite) --filter=$(filter) --stop-on-failure
+
+test-all: ## Run all tests
+	@$(PHP_CONT) $(PHPUNIT) --stop-on-failure
 
 ## —— Coding standards ✨ ——————————————————————————————————————————————————————
 cs: lint-php ## Run all coding standards checks

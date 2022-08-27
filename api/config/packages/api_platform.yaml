@@ -4,14 +4,17 @@ api_platform:
     show_webby: false
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
-    patch_formats:
-        json: ['application/merge-patch+json']
     swagger:
-        versions: [3]
+        versions: [3, 2]
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
     # Mercure integration, remove if unwanted
     mercure: ~
-    # Good cache defaults for REST APIs
+    # Good defaults value for REST APIs
     defaults:
         stateless: true
+        # Good cache defaults
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']

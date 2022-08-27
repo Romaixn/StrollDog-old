@@ -91,29 +91,7 @@ export const Form: FunctionComponent<Props> = ({ comment }) => {
               component="div"
               name="content"
             />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_creator">
-                creator
-              </label>
-              <input
-                name="creator"
-                id="_creator"
-                value={values.creator ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.creator && touched.creator ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.creator && touched.creator}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="creator"
-            />
+
             <div className="form-group">
               <label className="form-control-label" htmlFor="_place">
                 place

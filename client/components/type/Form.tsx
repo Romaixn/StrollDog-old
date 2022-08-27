@@ -87,30 +87,6 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
               />
             </div>
             <ErrorMessage className="text-danger" component="div" name="name" />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_places">
-                places
-              </label>
-              <input
-                name="places"
-                id="_places"
-                value={values.places ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.places && touched.places ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.places && touched.places}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="places"
-            />
-
             {status && status.msg && (
               <div
                 className={`alert ${
