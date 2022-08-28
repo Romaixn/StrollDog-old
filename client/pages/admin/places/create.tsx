@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../../components/place/Form";
+import { Form } from "../../../components/admin/place/Form";
 import Head from "next/head";
 
 const Page: NextComponentType<NextPageContext> = () => (

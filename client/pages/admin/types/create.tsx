@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../../components/type/Form";
+import { Form } from "../../../components/admin/type/Form";
 import { Layout } from "../../../components/admin/Layout";
 import Head from "next/head";
 

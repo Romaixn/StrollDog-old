@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { List } from "../../../components/user/List";
+import { List } from "../../../components/admin/user/List";
 import { PagedCollection } from "../../../types/Collection";
 import { User } from "../../../types/User";
 import { fetch } from "../../../utils/dataAccess";

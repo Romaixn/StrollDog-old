@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Show } from "../../../../components/comment/Show";
+import { Show } from "../../../../components/admin/comment/Show";
 import { Comment } from "../../../../types/Comment";
 import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";

@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../../../components/user/Form";
+import { Form } from "../../../../components/admin/user/Form";
 import { User } from "../../../../types/User";
 import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";

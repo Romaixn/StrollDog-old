@@ -1,5 +1,5 @@
 import { NextComponentType, NextPageContext } from "next";
-import { List } from "../../../components/type/List";
+import { List } from "../../../components/admin/type/List";
 import { Layout } from "../../../components/admin/Layout";
 import { PagedCollection } from "../../../types/Collection";
 import { Type } from "../../../types/Type";
