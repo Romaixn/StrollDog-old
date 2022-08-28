@@ -1,8 +1,8 @@
 import { NextComponentType, NextPageContext } from "next";
-import { List } from "../../components/comment/List";
-import { PagedCollection } from "../../types/Collection";
-import { Comment } from "../../types/Comment";
-import { fetch } from "../../utils/dataAccess";
+import { List } from "../../../components/comment/List";
+import { PagedCollection } from "../../../types/Collection";
+import { Comment } from "../../../types/Comment";
+import { fetch } from "../../../utils/dataAccess";
 import Head from "next/head";
 
 interface Props {

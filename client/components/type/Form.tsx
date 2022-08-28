@@ -27,7 +27,6 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
 
   return (
     <div>
-      <h1>{type ? `Edit Type ${type["@id"]}` : `Create Type`}</h1>
       <Formik
         initialValues={type ? { ...type } : new Type()}
         validate={(values) => {
@@ -67,55 +66,73 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_name">
-                name
-              </label>
-              <input
-                name="name"
-                id="_name"
-                value={values.name ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.name && touched.name ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.name && touched.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage className="text-danger" component="div" name="name" />
-            {status && status.msg && (
-              <div
-                className={`alert ${
-                  status.isValid ? "alert-success" : "alert-danger"
-                }`}
-                role="alert"
-              >
-                {status.msg}
+        <form onSubmit={handleSubmit} className="space-y-8 divide-y divide-gray-200">
+            <div className="space-y-8 divide-y divide-gray-200">
+              <div className="pt-8">
+                <div>
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">Type de lieu</h3>
+                  <p className="mt-1 text-sm text-gray-500">Informations à propos d'un type de lieu</p>
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <label htmlFor="_name" className="block text-sm font-medium text-gray-700">
+                      Nom
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="name"
+                        id="_name"
+                        value={values.name ?? ""}
+                        placeholder=""
+                        className={`shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md${
+                          errors.name && touched.name ? " is-invalid" : ""
+                        }`}
+                        aria-invalid={errors.name && touched.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                  </div>
+                  <ErrorMessage className="text-danger" component="div" name="name" />
+                  {status && status.msg && (
+                    <div
+                      className={`alert ${
+                        status.isValid ? "alert-success" : "alert-danger"
+                      }`}
+                      role="alert"
+                    >
+                      {status.msg}
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
+            </div>
 
-            <button
-              type="submit"
-              className="btn btn-success"
-              disabled={isSubmitting}
-            >
-              Submit
-            </button>
+            <div className="pt-5">
+              <div className="flex justify-end">
+                <Link href="/admin/types">
+                  <a className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Retour
+                  </a>
+                </Link>
+                {type && (
+                    <button onClick={handleDelete} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <a>Supprimer</a>
+                    </button>
+                )}
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {type ? "Modifier" : "Créer"}
+                </button>
+              </div>
+            </div>
           </form>
         )}
       </Formik>
-      <Link href="/types">
-        <a className="btn btn-primary">Back to list</a>
-      </Link>
-      {type && (
-        <button className="btn btn-danger" onClick={handleDelete}>
-          <a>Delete</a>
-        </button>
-      )}
     </div>
   );
 };

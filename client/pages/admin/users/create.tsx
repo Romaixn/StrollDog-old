@@ -1,12 +1,12 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../components/comment/Form";
+import { Form } from "../../../components/user/Form";
 import Head from "next/head";
 
 const Page: NextComponentType<NextPageContext> = () => (
   <div>
     <div>
       <Head>
-        <title>Create Comment </title>
+        <title>Create User </title>
       </Head>
     </div>
     <Form />

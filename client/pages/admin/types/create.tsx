@@ -1,16 +1,17 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../components/type/Form";
+import { Form } from "../../../components/type/Form";
+import { Layout } from "../../../components/admin/Layout";
 import Head from "next/head";
 
 const Page: NextComponentType<NextPageContext> = () => (
-  <div>
+  <Layout>
     <div>
       <Head>
-        <title>Create Type </title>
+        <title>Créer un nouveau type</title>
       </Head>
     </div>
     <Form />
-  </div>
+  </Layout>
 );
 
 export default Page;

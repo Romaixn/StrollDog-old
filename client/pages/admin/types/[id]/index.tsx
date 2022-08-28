@@ -1,7 +1,7 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../../components/type/Form";
-import { Type } from "../../../types/Type";
-import { fetch } from "../../../utils/dataAccess";
+import { Show } from "../../../../components/type/Show";
+import { Type } from "../../../../types/Type";
+import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";
 
 interface Props {
@@ -13,16 +13,16 @@ const Page: NextComponentType<NextPageContext, Props, Props> = ({ type }) => {
     <div>
       <div>
         <Head>
-          <title>{type && `Edit Type ${type["@id"]}`}</title>
+          <title>{`Show Type ${type["@id"]}`}</title>
         </Head>
       </div>
-      <Form type={type} />
+      <Show type={type} />
     </div>
   );
 };
 
 Page.getInitialProps = async ({ asPath }: NextPageContext) => {
-  const type = await fetch(asPath.replace("/edit", ""));
+  const type = await fetch(asPath);
 
   return { type };
 };

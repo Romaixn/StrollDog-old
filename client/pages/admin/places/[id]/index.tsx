@@ -1,7 +1,7 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Show } from "../../../components/place/Show";
-import { Place } from "../../../types/Place";
-import { fetch } from "../../../utils/dataAccess";
+import { Show } from "../../../../components/place/Show";
+import { Place } from "../../../../types/Place";
+import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";
 
 interface Props {

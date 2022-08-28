@@ -1,7 +1,7 @@
 import { NextComponentType, NextPageContext } from "next";
-import { Form } from "../../../components/comment/Form";
-import { Comment } from "../../../types/Comment";
-import { fetch } from "../../../utils/dataAccess";
+import { Show } from "../../../../components/comment/Show";
+import { Comment } from "../../../../types/Comment";
+import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";
 
 interface Props {
@@ -15,16 +15,16 @@ const Page: NextComponentType<NextPageContext, Props, Props> = ({
     <div>
       <div>
         <Head>
-          <title>{comment && `Edit Comment ${comment["@id"]}`}</title>
+          <title>{`Show Comment ${comment["@id"]}`}</title>
         </Head>
       </div>
-      <Form comment={comment} />
+      <Show comment={comment} />
     </div>
   );
 };
 
 Page.getInitialProps = async ({ asPath }: NextPageContext) => {
-  const comment = await fetch(asPath.replace("/edit", ""));
+  const comment = await fetch(asPath);
 
   return { comment };
 };

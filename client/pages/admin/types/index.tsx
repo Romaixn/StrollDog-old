@@ -1,8 +1,9 @@
 import { NextComponentType, NextPageContext } from "next";
-import { List } from "../../components/type/List";
-import { PagedCollection } from "../../types/Collection";
-import { Type } from "../../types/Type";
-import { fetch } from "../../utils/dataAccess";
+import { List } from "../../../components/type/List";
+import { Layout } from "../../../components/admin/Layout";
+import { PagedCollection } from "../../../types/Collection";
+import { Type } from "../../../types/Type";
+import { fetch } from "../../../utils/dataAccess";
 import Head from "next/head";
 
 interface Props {
@@ -12,14 +13,14 @@ interface Props {
 const Page: NextComponentType<NextPageContext, Props, Props> = ({
   collection,
 }) => (
-  <div>
+  <Layout header="Liste des types de lieux">
     <div>
       <Head>
-        <title>Type List</title>
+        <title>Liste des types</title>
       </Head>
     </div>
     <List types={collection["hydra:member"]} />
-  </div>
+  </Layout>
 );
 
 Page.getInitialProps = async () => {
