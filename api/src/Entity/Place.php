@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use Doctrine\DBAL\Types\Types;
 use Ramsey\Uuid\UuidInterface;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use App\State\PlacePostProcessor;
 use App\Repository\PlaceRepository;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Patch;
-use App\State\PlacePostProcessor;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     security: "is_granted('ROLE_USER')",
     processor: PlacePostProcessor::class
 )]
-#[Patch(
+#[Put(
     security: "is_granted('ROLE_USER') and object.creator == user",
     securityMessage: "Only the creator of the place can update it"
 )]

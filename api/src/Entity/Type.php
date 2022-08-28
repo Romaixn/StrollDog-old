@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use Ramsey\Uuid\UuidInterface;
-use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TypeRepository;
@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Get]
 #[GetCollection]
 #[Post(security: "is_granted('ROLE_ADMIN')")]
-#[Patch(security: "is_granted('ROLE_ADMIN')")]
+#[Put(security: "is_granted('ROLE_ADMIN')")]
 #[Delete(security: "is_granted('ROLE_ADMIN')")]
 class Type
 {
