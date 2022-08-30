@@ -1,8 +1,11 @@
 import type { NextPage } from 'next'
 import { Layout } from '../../components/admin/Layout'
 import Head from "next/head";
+import { useSession } from 'next-auth/react';
 
 const Admin: NextPage = () => {
+  const { data: session } = useSession();
+
   return (
     <Layout>
       <Head>
