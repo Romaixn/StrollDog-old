@@ -9,11 +9,15 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "john@smith.com" },
+        password: { label: "Password", type: "password" }
+      },
       authorize: async (credentials) => {
         const response = await fetch("/authentication_token", {
           method: "POST",
           body: JSON.stringify({
-            username: credentials.username,
+            email: credentials.email,
             password: credentials.password,
           }),
           headers: {
@@ -41,7 +45,30 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async redirect({ url, baseUrl }) {
       return baseUrl;
-    }
+    },
+    async jwt({ user, token }) {
+      if (user) {
+        token.user = user;
+      }
+
+      // token is valid
+      if (new Date() < new Date(token.user.exp)) {
+        return token;
+      }
+
+      // todo implement refresh token
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.token = token;
+      }
+      if (token.user) {
+        session.user = token.user;
+      }
+
+      return session;
+    },
   },
   pages: {
     signIn: '/login',
