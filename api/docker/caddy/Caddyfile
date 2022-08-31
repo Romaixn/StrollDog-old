@@ -17,12 +17,13 @@ log
 # except for known API paths and paths with extensions handled by API Platform
 @client expression `(
         {header.Accept}.matches("\\btext/html\\b")
-        && !{path}.matches("(?i)(?:^/docs|^/graphql|^/bundles|^/contexts/|^/_profiler|^/_wdt|\\.(?:json|html$|csv$|ya?ml$|xml$))")
+        && !{path}.matches("(?i)(?:^/docs|^/graphql|^/bundles|^/contexts/|^/.well-known|^/_profiler|^/_wdt|\\.(?:json|html$|csv$|ya?ml$|xml$))")
     )
     || {path} == "/favicon.ico"
     || {path} == "/manifest.json"
     || {path} == "/robots.txt"
     || {path}.startsWith("/_next")
+    || {path}.startsWith("/__next")
     || {path}.startsWith("/api/auth")
     || {path}.startsWith("/sitemap")`
 

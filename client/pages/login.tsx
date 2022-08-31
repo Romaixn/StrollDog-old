@@ -1,12 +1,16 @@
 import { useState } from "react";
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from "next/head";
 import { useRouter } from 'next/router';
 import { Layout } from '../components/auth/Layout';
 import { ErrorMessage, Formik } from "formik";
-import { signIn } from "next-auth/react"
+import { signIn, getCsrfToken } from 'next-auth/react';
 
-const Login: NextPage = () => {
+interface Props {
+  csrfToken: string;
+}
+
+const Login: NextPage<Props> = ({ csrfToken }) => {
   const [error, setError] = useState(null);
   const router = useRouter;
 
@@ -99,21 +103,26 @@ const Login: NextPage = () => {
                 errors.email = 'Email invalide';
               }
 
+              if(!values.password) {
+                errors.password = 'Mot de passe requis';
+              }
+
               return errors;
             }}
-            onSubmit={async (values, { setSubmitting, setStatus, setErrors }) => {
-              try {
-                await fetch("/authentication_token", {
-                  method: "POST",
-                  headers: {
-                    "accept": "application/json",
-                    "Content-Type": "application/json"
-                  },
-                  body: JSON.stringify(values)
+            onSubmit={async (values, { setSubmitting }) => {
+                const res = await signIn('credentials', {
+                  email: values.email,
+                  password: values.password,
                 });
-              } catch (error) {
-                setErrors(error.fields);
-              }
+
+                if(res?.error) {
+                  setError(res.error);
+                } else {
+                  setError(null);
+                }
+
+                if(res?.url) router.push(res.url);
+                setSubmitting(false);
             }}
           >
             {({
@@ -127,6 +136,13 @@ const Login: NextPage = () => {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit} className="space-y-6">
+                <p>{error}</p>
+                <input
+                  name="csrfToken"
+                  type="hidden"
+                  defaultValue={csrfToken}
+                />
+
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                     Adresse email
@@ -165,18 +181,7 @@ const Login: NextPage = () => {
                   </div>
                   {errors.password && touched.password && errors.password}
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                      Se souvenir de moi
-                    </label>
-                  </div>
+                <div className="flex justify-end">
                   <div className="text-sm">
                     <a href="#" className="font-medium text-amber-600 hover:text-amber-500">
                       Mot de passe oublié ?
@@ -199,6 +204,15 @@ const Login: NextPage = () => {
       </div>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const csrfToken = await getCsrfToken(context);
+  return {
+    props: {
+      csrfToken
+    },
+  };
 }
 
 export default Login

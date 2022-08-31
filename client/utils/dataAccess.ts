@@ -3,6 +3,7 @@ import has from "lodash/has";
 import mapValues from "lodash/mapValues";
 import isomorphicFetch from "isomorphic-unfetch";
 import { ENTRYPOINT } from "../config/entrypoint";
+import FormData from 'form-data';
 
 const MIME_TYPE = "application/ld+json";
 

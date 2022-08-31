@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import Link from "next/link";
+import { signOut } from "next-auth/react"
 import {
   Bars3BottomLeftIcon,
   BellIcon,
@@ -24,7 +25,7 @@ const navigation = [
 const userNavigation = [
   { name: 'Votre profil', href: '#' },
   { name: 'Paramètres', href: '#' },
-  { name: 'Déconnexion', href: '#' },
+  { name: 'Déconnexion', href: signOut },
 ]
 
 function classNames(...classes) {

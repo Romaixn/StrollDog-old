@@ -8,25 +8,32 @@ import { fetch } from "../../../utils/dataAccess";
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
+      id: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "john@smith.com" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" }
       },
-      authorize: async (credentials) => {
-        const response = await fetch("/authentication_token", {
+      authorize: async (credentials, req) => {
+        const payload = {
+          email: credentials?.email,
+          password: credentials?.password
+        }
+
+        const user = await fetch("/authentication_token", {
           method: "POST",
-          body: JSON.stringify({
-            email: credentials.email,
-            password: credentials.password,
-          }),
+          body: JSON.stringify(payload),
           headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
           },
         });
 
-        return response.data;
+        if(!user) {
+          throw new Error(user.exception);
+        }
+
+        return user;
       },
     }),
     GoogleProvider({
@@ -46,35 +53,29 @@ export const authOptions: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-    async jwt({ user, token }) {
-      if (user) {
-        token.user = user;
+    async jwt({ user, account, token }) {
+      if (user && account) {
+        return {
+          ...token,
+          accessToken: user.token,
+        };
       }
 
-      // token is valid
-      if (new Date() < new Date(token.user.exp)) {
-        return token;
-      }
-
-      // todo implement refresh token
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.token = token;
-      }
-      if (token.user) {
-        session.user = token.user;
-      }
+      session.user.accessToken = token.accessToken;
 
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/login',
     error: '/login',
     newUser: '/register'
-  }
+  },
+  debug: process.env.NODE_ENV === 'development'
 }
 
 export default NextAuth(authOptions)
