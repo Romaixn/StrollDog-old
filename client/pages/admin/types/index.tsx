@@ -13,7 +13,7 @@ interface Props {
 const Page: NextComponentType<NextPageContext, Props, Props> = ({
   collection,
 }) => (
-  <Layout header="Liste des types de lieux">
+  <Layout>
     <div>
       <Head>
         <title>Liste des types</title>

@@ -3,6 +3,7 @@ import { Form } from "../../../../components/admin/user/Form";
 import { User } from "../../../../types/User";
 import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";
+import { Layout } from "../../../../components/admin/Layout";
 
 interface Props {
   user: User;
@@ -10,14 +11,14 @@ interface Props {
 
 const Page: NextComponentType<NextPageContext, Props, Props> = ({ user }) => {
   return (
-    <div>
+    <Layout>
       <div>
         <Head>
           <title>{user && `Edit User ${user["@id"]}`}</title>
         </Head>
       </div>
       <Form user={user} />
-    </div>
+    </Layout>
   );
 };
 

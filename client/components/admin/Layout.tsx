@@ -14,12 +14,13 @@ import {
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { FunctionComponent } from "react";
 import { User } from "../../types/User";
+import { useRouter } from 'next/router';
 
 const navigation = [
   { name: 'Tableau de bord', href: '/admin', icon: HomeIcon, current: true },
-  { name: 'Lieux', href: '#', icon: MapPinIcon, current: false },
+  { name: 'Lieux', href: '/admin/places', icon: MapPinIcon, current: false },
   { name: 'Types', href: '/admin/types', icon: TagIcon, current: false },
-  { name: 'Utilisateurs', href: '#', icon: UsersIcon, current: false },
+  { name: 'Utilisateurs', href: '/admin/users', icon: UsersIcon, current: false },
 ]
 
 const userNavigation = [
@@ -39,6 +40,7 @@ interface Props {
 
 export const Layout: FunctionComponent<Props> = ({ user, header, children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const router = useRouter();
 
   return (
     <>
@@ -101,7 +103,7 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                         <Link key={item.name} href={item.href}>
                           <a
                             className={classNames(
-                              item.current ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
+                              router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
                               'group flex items-center px-2 py-2 text-base font-medium rounded-md'
                             )}
                           >
@@ -138,7 +140,7 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                   <Link key={item.name} href={item.href}>
                     <a
                       className={classNames(
-                        item.current ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
+                        router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
                         'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
                       )}
                     >
@@ -214,18 +216,16 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <Link href={item.href}>
-                              <a
-                                className={classNames(
-                                  active ? 'bg-gray-100' : '',
-                                  'block px-4 py-2 text-sm text-gray-700'
-                                )}
-                              >
-                                {item.name}
-                              </a>
-                            </Link>
-                          )}
+                          <Link href={item.href}>
+                            <a
+                              className={classNames(
+                                router.pathname == item.href ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              {item.name}
+                            </a>
+                          </Link>
                         </Menu.Item>
                       ))}
                       <Menu.Item key='deconnexion'>

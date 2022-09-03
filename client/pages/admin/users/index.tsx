@@ -4,6 +4,7 @@ import { PagedCollection } from "../../../types/Collection";
 import { User } from "../../../types/User";
 import { fetch } from "../../../utils/dataAccess";
 import Head from "next/head";
+import { Layout } from "../../../components/admin/Layout";
 
 interface Props {
   collection: PagedCollection<User>;
@@ -12,14 +13,14 @@ interface Props {
 const Page: NextComponentType<NextPageContext, Props, Props> = ({
   collection,
 }) => (
-  <div>
+  <Layout>
     <div>
       <Head>
         <title>User List</title>
       </Head>
     </div>
     <List users={collection["hydra:member"]} />
-  </div>
+  </Layout>
 );
 
 Page.getInitialProps = async () => {

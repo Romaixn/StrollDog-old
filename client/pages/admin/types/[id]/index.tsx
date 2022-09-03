@@ -22,7 +22,8 @@ const Page: NextComponentType<NextPageContext, Props, Props> = ({ type }) => {
 };
 
 Page.getInitialProps = async ({ asPath }: NextPageContext) => {
-  const type = await fetch(asPath);
+  const apiPath = asPath.replace("admin/", "");
+  const type = await fetch(apiPath);
 
   return { type };
 };

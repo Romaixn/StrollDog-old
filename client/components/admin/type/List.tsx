@@ -16,7 +16,7 @@ export const List: FunctionComponent<Props> = ({ types }) => {
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
-  const [selectedType, setSelectedPeople] = useState([])
+  const [selectedType, setSelectedPlace] = useState([])
 
   useLayoutEffect(() => {
     const isIndeterminate = selectedType.length > 0 && selectedType.length < types.length
@@ -26,7 +26,7 @@ export const List: FunctionComponent<Props> = ({ types }) => {
   }, [selectedType])
 
   function toggleAll() {
-    setSelectedPeople(checked || indeterminate ? [] : types)
+    setSelectedPlace(checked || indeterminate ? [] : types)
     setChecked(!checked && !indeterminate)
     setIndeterminate(false)
   }
@@ -102,7 +102,7 @@ export const List: FunctionComponent<Props> = ({ types }) => {
                           value={type["@id"]}
                           checked={selectedType.includes(type)}
                           onChange={(e) =>
-                            setSelectedPeople(
+                            setSelectedPlace(
                               e.target.checked
                                 ? [...selectedType, type]
                                 : selectedType.filter((p) => p !== type)
