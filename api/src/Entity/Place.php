@@ -34,11 +34,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     processor: PlacePostProcessor::class
 )]
 #[Put(
-    security: "is_granted('ROLE_USER') and object.creator == user",
+    security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object.creator == user)",
     securityMessage: 'Only the creator of the place can update it'
 )]
 #[Delete(
-    security: "is_granted('ROLE_USER') and object.creator == user",
+    security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object.creator == user)",
     securityMessage: 'Only the creator of the place can delete it'
 )]
 class Place

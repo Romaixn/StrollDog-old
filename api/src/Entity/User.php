@@ -31,11 +31,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[GetCollection(security: "is_granted('ROLE_ADMIN')")]
 #[Post]
 #[Put(
-    security: "is_granted('ROLE_USER') and object == user",
+    security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)",
     securityMessage: 'Only the user can update his own profile'
 )]
 #[Delete(
-    security: "is_granted('ROLE_USER') and object == user",
+    security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)",
     securityMessage: 'Only the user can delete his own profile'
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
