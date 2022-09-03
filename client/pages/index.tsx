@@ -2,13 +2,18 @@ import type { NextPage } from 'next'
 import { useSession } from "next-auth/react"
 import { signOut } from "next-auth/react"
 
-const Home: NextPage = () => {
+interface Props {
+  token: object;
+}
+
+const Home: NextPage<Props> = ({ token }) => {
     const { data: session, status } = useSession()
 
     if (status === "authenticated") {
       return (
         <div>
-          <p>Signed in as {session.user.email}</p>
+          <p>Access Token : {session.accessToken}</p>
+          <p>Email : {session.user.email}</p>
           <button onClick={() => signOut()}>Sign out</button>
         </div>
       )

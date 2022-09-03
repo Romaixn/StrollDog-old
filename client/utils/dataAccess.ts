@@ -4,6 +4,7 @@ import mapValues from "lodash/mapValues";
 import isomorphicFetch from "isomorphic-unfetch";
 import { ENTRYPOINT } from "../config/entrypoint";
 import FormData from 'form-data';
+import { unstable_getServerSession } from "next-auth/next";
 
 const MIME_TYPE = "application/ld+json";
 

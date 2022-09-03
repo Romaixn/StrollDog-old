@@ -4,6 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fetch } from "../../../utils/dataAccess";
+import jwt_decode from "jwt-decode";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -53,18 +54,19 @@ export const authOptions: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-    async jwt({ user, account, token }) {
-      if (user && account) {
+    async jwt({ token, user }) {
+      if (user) {
         return {
           ...token,
-          accessToken: user.token,
+          accessToken: user.token
         };
       }
 
       return token;
     },
     async session({ session, token }) {
-      session.user.accessToken = token.accessToken;
+      session.accessToken = token.accessToken;
+      session.user = jwt_decode(token.accessToken);
 
       return session;
     },
@@ -74,8 +76,7 @@ export const authOptions: NextAuthOptions = {
     signIn: '/login',
     error: '/login',
     newUser: '/register'
-  },
-  debug: process.env.NODE_ENV === 'development'
+  }
 }
 
 export default NextAuth(authOptions)

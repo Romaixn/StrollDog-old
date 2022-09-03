@@ -24,8 +24,7 @@ const navigation = [
 
 const userNavigation = [
   { name: 'Votre profil', href: '#' },
-  { name: 'Paramètres', href: '#' },
-  { name: 'Déconnexion', href: signOut },
+  { name: 'Paramètres', href: '#' }
 ]
 
 function classNames(...classes) {
@@ -229,6 +228,15 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                           )}
                         </Menu.Item>
                       ))}
+                      <Menu.Item key='deconnexion'>
+                        <a
+                          href="#"
+                          onClick={() => signOut() }
+                          className='block px-4 py-2 text-sm text-gray-700'
+                        >
+                          Déconnexion
+                        </a>
+                      </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>

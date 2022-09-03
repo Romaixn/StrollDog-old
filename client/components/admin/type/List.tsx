@@ -120,7 +120,7 @@ export const List: FunctionComponent<Props> = ({ types }) => {
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><ReferenceLinks items={type["places"]} type="Place" /></td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Link href={`/admin/${type["@id"]}/edit`}>
+                        <Link href={`/admin${type["@id"]}/edit`}>
                           <a className="text-amber-600 hover:text-amber-900">
                             Modifier<span className="sr-only">, {type['name']}</span>
                           </a>
