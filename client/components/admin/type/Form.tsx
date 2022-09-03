@@ -71,9 +71,9 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
         }) => (
         <form onSubmit={handleSubmit} className="space-y-8 divide-y divide-gray-200">
             <div className="space-y-8 divide-y divide-gray-200">
-              <div className="pt-8">
+              <div>
                 <div>
-                  <h3 className="text-lg leading-6 font-medium text-gray-900">Type de lieu</h3>
+                  <h1 className="text-lg leading-6 font-medium text-gray-900">Type de lieu</h1>
                   <p className="mt-1 text-sm text-gray-500">Informations à propos d'un type de lieu</p>
                 </div>
                 <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
