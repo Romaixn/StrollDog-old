@@ -14,7 +14,7 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this item?")) return;
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce type ?")) return;
 
     try {
       await fetch(type["@id"], { method: "DELETE" });
@@ -31,11 +31,15 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
         initialValues={type ? { ...type } : new Type()}
         validate={(values) => {
           const errors = {};
-          // add your validation logic here
+          if(!values.name) {
+            errors.name = 'Le nom est requis';
+          }
+
           return errors;
         }}
         onSubmit={async (values, { setSubmitting, setStatus, setErrors }) => {
           const isCreation = !values["@id"];
+
           try {
             await fetch(isCreation ? "/types" : values["@id"], {
               method: isCreation ? "POST" : "PUT",
@@ -51,7 +55,6 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
               isValid: false,
               msg: `${error.defaultErrorMsg}`,
             });
-            setErrors(error.fields);
           }
           setSubmitting(false);
         }}
@@ -86,15 +89,15 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
                         value={values.name ?? ""}
                         placeholder=""
                         className={`shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 rounded-md${
-                          errors.name && touched.name ? " is-invalid" : ""
+                          errors.name && touched.name ? " border-red-500" : ""
                         }`}
                         aria-invalid={errors.name && touched.name}
                         onChange={handleChange}
                         onBlur={handleBlur}
                       />
                     </div>
+                  <ErrorMessage className="text-red-500" component="div" name="name" />
                   </div>
-                  <ErrorMessage className="text-danger" component="div" name="name" />
                   {status && status.msg && (
                     <div
                       className={`alert ${
@@ -117,7 +120,7 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
                   </a>
                 </Link>
                 {type && (
-                    <button onClick={handleDelete} className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                    <button type="button" onClick={handleDelete} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                       <a>Supprimer</a>
                     </button>
                 )}

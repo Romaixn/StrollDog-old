@@ -24,7 +24,7 @@ const ReferenceLinks: FunctionComponent<Props> = ({
   }
 
   return (
-    <Link href={items}>
+    <Link href={`/admin/${items}`}>
       <a>
         {useIcon ? (
           <Fragment>

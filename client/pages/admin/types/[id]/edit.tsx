@@ -3,6 +3,7 @@ import { Form } from "../../../../components/admin/type/Form";
 import { Type } from "../../../../types/Type";
 import { fetch } from "../../../../utils/dataAccess";
 import Head from "next/head";
+import { Layout } from "../../../../components/admin/Layout";
 
 interface Props {
   type: Type;
@@ -10,19 +11,21 @@ interface Props {
 
 const Page: NextComponentType<NextPageContext, Props, Props> = ({ type }) => {
   return (
-    <div>
+    <Layout>
       <div>
         <Head>
           <title>{type && `Edit Type ${type["@id"]}`}</title>
         </Head>
       </div>
       <Form type={type} />
-    </div>
+    </Layout>
   );
 };
 
 Page.getInitialProps = async ({ asPath }: NextPageContext) => {
-  const type = await fetch(asPath.replace("/edit", ""));
+  let apiPath = asPath.replace("/edit", "");
+  apiPath = apiPath.replace("admin/", "");
+  const type = await fetch(apiPath);
 
   return { type };
 };

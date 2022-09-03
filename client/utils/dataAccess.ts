@@ -4,7 +4,7 @@ import mapValues from "lodash/mapValues";
 import isomorphicFetch from "isomorphic-unfetch";
 import { ENTRYPOINT } from "../config/entrypoint";
 import FormData from 'form-data';
-import { unstable_getServerSession } from "next-auth/next";
+import { getSession } from "next-auth/react"
 
 const MIME_TYPE = "application/ld+json";
 
@@ -24,6 +24,12 @@ export const fetch = async (id: string, init: RequestInit = {}) => {
   )
     init.headers = { ...init.headers, "Content-Type": MIME_TYPE };
 
+  const session = await getSession();
+
+  if(session && session.accessToken) {
+    init.headers = { ...init.headers, Authorization: `Bearer ${session.accessToken}` };
+  }
+
   const resp = await isomorphicFetch(ENTRYPOINT + id, init);
   if (resp.status === 204) return;
 
@@ -32,6 +38,9 @@ export const fetch = async (id: string, init: RequestInit = {}) => {
 
   const defaultErrorMsg = json["hydra:title"];
   const status = json["hydra:description"] || resp.statusText;
+
+  console.log(json);
+
   if (!json.violations) throw Error(defaultErrorMsg);
   const fields = {};
   json.violations.map(
