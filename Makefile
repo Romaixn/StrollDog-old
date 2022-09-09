@@ -62,7 +62,7 @@ cc: sf
 test: ## Run tests with optionnal suite and filter
 	@$(eval testsuite ?= 'all')
 	@$(eval filter ?= '.')
-	@$(PHPUNIT) --testsuite=$(testsuite) --filter=$(filter) --stop-on-failure
+	@$(PHP_CONT) $(PHPUNIT) --testsuite=$(testsuite) --filter=$(filter) --stop-on-failure
 
 test-all: ## Run all tests
 	@$(PHP_CONT) $(PHPUNIT) --stop-on-failure

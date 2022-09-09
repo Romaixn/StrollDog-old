@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enum;
 
 enum Influx: string
 {
     case LOW = 'low';
     case MODERATE = 'moderate';
-    CASE HIGH = 'high';
+    case HIGH = 'high';
 
     /**
      * @return array<string, string>
@@ -15,7 +17,7 @@ enum Influx: string
     {
         return array_reduce(
             self::cases(),
-            static fn(array $choices, Influx $influx) => $choices + [$influx->name => $influx->value],
+            static fn (array $choices, Influx $influx) => $choices + [$influx->name => $influx->value],
             []
         );
     }

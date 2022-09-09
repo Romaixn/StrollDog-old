@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
-use App\Entity\Place;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 class PlacesTest extends ApiTestCase
