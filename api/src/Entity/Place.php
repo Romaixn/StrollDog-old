@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Enum\Influx;
 use App\Repository\PlaceRepository;
 use App\State\PlacePostProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -86,10 +87,10 @@ class Place
     #[Groups(groups: ['place:read'])]
     private ?float $rating = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, enumType: Influx::class)]
     #[Assert\NotBlank]
     #[Groups(groups: ['place:read', 'place:write'])]
-    private ?string $influx = null;
+    private Influx $influx = Influx::MODERATE;
 
     #[ORM\ManyToMany(targetEntity: Type::class, mappedBy: 'places')]
     #[Groups(groups: ['place:read', 'place:write'])]
@@ -211,12 +212,12 @@ class Place
         return $this;
     }
 
-    public function getInflux(): ?string
+    public function getInflux(): Influx
     {
         return $this->influx;
     }
 
-    public function setInflux(?string $influx): self
+    public function setInflux(Influx $influx): self
     {
         $this->influx = $influx;
 
