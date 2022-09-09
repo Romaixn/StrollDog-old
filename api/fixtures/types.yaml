@@ -1,0 +1,30 @@
+App\Entity\Type:
+    type_forest:
+        name: 'Forêt'
+        
+    type_fields:
+        name: 'Champs'
+        
+    type_city:
+        name: 'Ville'
+    
+    type_mountain:
+        name: 'Montagne'
+        
+    type_lake:
+        name: 'Lac'
+        
+    type_river:
+        name: 'Rivière'
+        
+    type_waterfall:
+        name: 'Cascade'
+        
+    type_cave:
+        name: 'Grotte'
+        
+    type_canyon:
+        name: 'Canyon'
+        
+    type_beach:
+        name: 'Plage'

@@ -1,0 +1,14 @@
+App\Entity\User:
+    user_{1..50}:
+        username: <username()>
+        email: <email()>
+        name: <name()>
+        password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$R7Yp2KvbpMryniA498C8hg\$KvwosmkhXg/Mi4ftiI7Ld6zb2BqZmH9FIpUzwbsuX50' # test
+        roles: [] # It will have the ROLE_USER that is automatically assigned to each user
+    
+    admin:
+        username: admin
+        email: admin@stroll.dog
+        name: 'Admin'
+        password: '\$2y\$13\$6aKii4JYnvdPwmEwNicPBeHvkbc5z/HHfZEL1PxsZhXNvlk9oVbfe' # admin
+        roles: [ROLE_ADMIN] # This role inherits from all other rights

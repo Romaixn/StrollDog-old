@@ -1,0 +1,13 @@
+App\Entity\Place:
+    place_{1..100}:
+        title: <sentence(4)>
+        description: <text()>
+        address: <address()>
+        city: <city()>
+        postalCode: <randomNumber(5, true)>
+        latitude: <latitude()>
+        longitude: <longitude()>
+        rating: <numberBetween(0, 5)>
+        influx: <randomInflux()>
+        types: '2x @type_*'
+        creator: '@user_*'

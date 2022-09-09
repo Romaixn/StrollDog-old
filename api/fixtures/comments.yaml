@@ -1,0 +1,5 @@
+App\Entity\Comment:
+    comment_{1..200}:
+        content: <text()>
+        creator: '@user_*'
+        place: '@place_*'
