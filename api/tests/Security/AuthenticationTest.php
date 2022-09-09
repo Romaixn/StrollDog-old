@@ -1,9 +1,8 @@
 <?php
 
 declare(strict_types=1);
-// tests/AuthenticationTest.php
 
-namespace App\Tests;
+namespace App\Tests\Security;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\User;
