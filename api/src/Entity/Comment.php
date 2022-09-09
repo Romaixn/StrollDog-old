@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['comment:write']]
 )]
 #[Get]
-#[GetCollection]
 #[Post(security: "is_granted('ROLE_USER')")]
 class Comment
 {
