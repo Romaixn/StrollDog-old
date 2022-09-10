@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Social;
+namespace App\Security\Auth\Social;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Security\AuthService;
+use App\Security\Auth\AuthService;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;

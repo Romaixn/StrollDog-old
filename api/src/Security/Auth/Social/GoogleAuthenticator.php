@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Security\Social;
+namespace App\Security\Auth\Social;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
