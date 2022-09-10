@@ -87,6 +87,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $googleId = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facebookId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $instagramId = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -258,6 +264,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGoogleId(?string $googleId): self
     {
         $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    public function getFacebookId(): ?string
+    {
+        return $this->facebookId;
+    }
+
+    public function setFacebookId(?string $facebookId): self
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    public function getInstagramId(): ?string
+    {
+        return $this->instagramId;
+    }
+
+    public function setInstagramId(?string $instagramId): self
+    {
+        $this->instagramId = $instagramId;
 
         return $this;
     }

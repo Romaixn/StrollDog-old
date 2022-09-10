@@ -58,22 +58,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-    public function findOrCreateFromOauth(string $service, ?string $serviceId, ?string $username): mixed
+    public function findOrCreateFromOauth(string $service, ?string $serviceId, ?string $email, ?string $username = null): mixed
     {
-        if (null === $serviceId || null === $username) {
+        if (null === $serviceId) {
             return null;
         }
 
-        $user = $this->createQueryBuilder('u')
-            ->where('u.username = :username')
-            ->orWhere("u.{$service}Id = :serviceId")
-            ->setMaxResults(1)
-            ->setParameters([
-                'username' => $username,
-                'serviceId' => $serviceId,
-            ])
-            ->getQuery()
-            ->getOneOrNullResult();
+        if ($username) {
+            $user = $this->createQueryBuilder('u')
+                ->where('u.username = :username')
+                ->orWhere("u.{$service}Id = :serviceId")
+                ->setMaxResults(1)
+                ->setParameters([
+                    'username' => $username,
+                    'serviceId' => $serviceId,
+                ])
+                ->getQuery()
+                ->getOneOrNullResult();
+        } else {
+            $user = $this->createQueryBuilder('u')
+                ->where('u.email = :email')
+                ->orWhere("u.{$service}Id = :serviceId")
+                ->setMaxResults(1)
+                ->setParameters([
+                    'email' => $email,
+                    'serviceId' => $serviceId,
+                ])
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
 
         if ($user) {
             return $user;
@@ -83,8 +96,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $function = "set{$service}Id";
         $user = (new User())
             ->$function($serviceId)
-            ->setUsername($username)
-        ;
+            ->setUsername($email);
 
         $em = $this->getEntityManager();
         $em->persist($user);
