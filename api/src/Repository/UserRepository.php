@@ -58,28 +58,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findOrCreateFromOauth(string $service, ?string $serviceId, ?string $username): mixed
+    {
+        if (null === $serviceId || null === $username) {
+            return null;
+        }
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $user = $this->createQueryBuilder('u')
+            ->where('u.username = :username')
+            ->orWhere("u.{$service}Id = :serviceId")
+            ->setMaxResults(1)
+            ->setParameters([
+                'username' => $username,
+                'serviceId' => $serviceId,
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        if ($user) {
+            return $user;
+        }
+
+        $service = ucfirst($service);
+        $function = "set{$service}Id";
+        $user = (new User())
+            ->$function($serviceId)
+            ->setUsername($username)
+        ;
+
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $user;
+    }
 }
