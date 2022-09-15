@@ -16,16 +16,13 @@ log
 # Matches requests for HTML documents, for static files and for Next.js files,
 # except for known API paths and paths with extensions handled by API Platform
 @client expression `(
-        {header.Accept}.matches("\\btext/html\\b")
-        && !{path}.matches("(?i)(?:^/docs|^/graphql|^/bundles|^/contexts/|^/.well-known|^/_profiler|^/_wdt|\\.(?:json|html$|csv$|ya?ml$|xml$))")
+        header({'Accept': '*text/html*'})
+        && !path(
+            '/docs*', '/graphql*', '/bundles*', '/contexts*', '/_profiler*', '/_wdt*',
+            '*.json*', '*.html', '*.csv', '*.yml', '*.yaml', '*.xml'
+        )
     )
-    || {path} == "/favicon.ico"
-    || {path} == "/manifest.json"
-    || {path} == "/robots.txt"
-    || {path}.startsWith("/_next")
-    || {path}.startsWith("/__next")
-    || {path}.startsWith("/api/auth")
-    || {path}.startsWith("/sitemap")`
+    || path('/favicon.ico', '/manifest.json', '/robots.txt', '/_next*', '/sitemap*')`
 
 route {
     root * /srv/app/public
@@ -44,7 +41,6 @@ route {
         {$MERCURE_EXTRA_DIRECTIVES}
     }
     vulcain
-    push
 
     # Add links to the API docs and to the Mercure Hub if not set explicitly (e.g. the client)
     header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation", </.well-known/mercure>; rel="mercure"`

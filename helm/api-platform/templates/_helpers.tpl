@@ -43,11 +43,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Common labels client
+Common labels CLIENT
 */}}
-{{- define "api-platform.labelsclient" -}}
+{{- define "api-platform.labelsCLIENT" -}}
 helm.sh/chart: {{ include "api-platform.chart" . }}
-{{ include "api-platform.selectorLabelsclient" . }}
+{{ include "api-platform.selectorLabelsCLIENT" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -64,9 +64,9 @@ app.kubernetes.io/part-of: {{ include "api-platform.name" . }}
 {{- end }}
 
 {{/*
-Selector labels client
+Selector labels CLIENT
 */}}
-{{- define "api-platform.selectorLabelsclient" -}}
+{{- define "api-platform.selectorLabelsCLIENT" -}}
 app.kubernetes.io/name: {{ include "api-platform.name" . }}-client
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: {{ include "api-platform.name" . }}

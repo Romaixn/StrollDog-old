@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   name: {{ include "api-platform.fullname" . }}-client
   labels:
-    {{- include "api-platform.labelsclient" . | nindent 4 }}
+    {{- include "api-platform.labelsCLIENT" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "api-platform.selectorLabelsclient" . | nindent 6 }}
+      {{- include "api-platform.selectorLabelsCLIENT" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "api-platform.selectorLabelsclient" . | nindent 8 }}
+        {{- include "api-platform.selectorLabelsCLIENT" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
