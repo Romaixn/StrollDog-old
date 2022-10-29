@@ -10,9 +10,7 @@ interface Props {
 export const List: FunctionComponent<Props> = ({ comments }) => (
   <div>
     <h1>Comment List</h1>
-    <Link href="/comments/create">
-      <a className="btn btn-primary">Create</a>
-    </Link>
+    <Link href="/comments/create" className="btn btn-primary">Create</Link>
     <table className="table table-responsive table-striped table-hover">
       <thead>
         <tr>
@@ -47,10 +45,8 @@ export const List: FunctionComponent<Props> = ({ comments }) => (
               </td>
               <td>
                 <Link href={`${comment["@id"]}/edit`}>
-                  <a>
-                    <i className="bi bi-pen" aria-hidden="true" />
-                    <span className="sr-only">Edit</span>
-                  </a>
+                  <i className="bi bi-pen" aria-hidden="true" />
+                  <span className="sr-only">Edit</span>
                 </Link>
               </td>
             </tr>

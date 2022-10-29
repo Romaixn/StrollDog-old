@@ -41,8 +41,8 @@ export const List: FunctionComponent<Props> = ({ types }) => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <Link href="/admin/types/create">
-            <a className="inline-flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 sm:w-auto">Créer un type</a>
+          <Link href="/admin/types/create" className="inline-flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 sm:w-auto">
+            Créer un type
           </Link>
         </div>
       </div>
@@ -118,12 +118,10 @@ export const List: FunctionComponent<Props> = ({ types }) => {
                       >
                         {type['name']}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><ReferenceLinks items={type["places"]} type="Place" /></td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{type['places'].length}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Link href={`/admin${type["@id"]}/edit`}>
-                          <a className="text-amber-600 hover:text-amber-900">
-                            Modifier<span className="sr-only">, {type['name']}</span>
-                          </a>
+                        <Link href={`/admin${type["@id"]}/edit`} className="text-amber-600 hover:text-amber-900">
+                          Modifier<span className="sr-only">, {type['name']}</span>
                         </Link>
                       </td>
                     </tr>

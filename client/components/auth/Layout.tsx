@@ -20,6 +20,7 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
             <div className="absolute inset-0 h-full w-full">
               <Image
                 src={banner}
+                className="h-full"
                 alt="3 people walking in a forest with their dogs"
                 layout="fill"
                 objectFit="cover"

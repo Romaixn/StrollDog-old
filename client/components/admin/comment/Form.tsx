@@ -160,8 +160,8 @@ export const Form: FunctionComponent<Props> = ({ comment }) => {
           </form>
         )}
       </Formik>
-      <Link href="/comments">
-        <a className="btn btn-primary">Back to list</a>
+      <Link href="/comments" className="btn btn-primary">
+        Back to list
       </Link>
       {comment && (
         <button className="btn btn-danger" onClick={handleDelete}>

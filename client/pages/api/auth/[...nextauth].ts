@@ -4,7 +4,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import TwitterProvider from 'next-auth/providers/twitter';
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fetch } from "../../../utils/dataAccess";
-import jwt_decode from "jwt-decode";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -66,7 +65,6 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
-      session.user = jwt_decode(token.accessToken);
 
       return session;
     },

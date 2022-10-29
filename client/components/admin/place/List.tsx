@@ -7,7 +7,7 @@ interface Props {
   places: Place[];
 }
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
@@ -41,8 +41,8 @@ export const List: FunctionComponent<Props> = ({ places }) => {
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-          <Link href="/admin/places/create">
-            <a className="inline-flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 sm:w-auto">Créer un lieu</a>
+          <Link href="/admin/places/create" className="inline-flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 sm:w-auto">
+            Créer un lieu
           </Link>
         </div>
       </div>
@@ -131,10 +131,8 @@ export const List: FunctionComponent<Props> = ({ places }) => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><ReferenceLinks items={place["types"]} type="Type" /></td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><ReferenceLinks items={place["creator"]} type="User" /></td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <Link href={`/admin${place["@id"]}/edit`}>
-                          <a className="text-amber-600 hover:text-amber-900">
+                        <Link href={`/admin${place["@id"]}/edit`} className="text-amber-600 hover:text-amber-900">
                             Modifier<span className="sr-only">, {place['title']}</span>
-                          </a>
                         </Link>
                       </td>
                     </tr>

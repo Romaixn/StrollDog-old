@@ -10,8 +10,8 @@ interface Props {
 export const List: FunctionComponent<Props> = ({ users }) => (
   <div>
     <h1>User List</h1>
-    <Link href="/users/create">
-      <a className="btn btn-primary">Create</a>
+    <Link href="/users/create" className="btn btn-primary">
+      Create
     </Link>
     <table className="table table-responsive table-striped table-hover">
       <thead>
@@ -57,10 +57,8 @@ export const List: FunctionComponent<Props> = ({ users }) => (
               </td>
               <td>
                 <Link href={`${user["@id"]}/edit`}>
-                  <a>
-                    <i className="bi bi-pen" aria-hidden="true" />
-                    <span className="sr-only">Edit</span>
-                  </a>
+                  <i className="bi bi-pen" aria-hidden="true" />
+                  <span className="sr-only">Edit</span>
                 </Link>
               </td>
             </tr>

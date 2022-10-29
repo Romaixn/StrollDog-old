@@ -114,14 +114,12 @@ export const Form: FunctionComponent<Props> = ({ type }) => {
 
             <div className="pt-5">
               <div className="flex justify-end">
-                <Link href="/admin/types">
-                  <a className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                <Link href="/admin/types" className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
                     Retour
-                  </a>
                 </Link>
                 {type && (
                     <button type="button" onClick={handleDelete} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                      <a>Supprimer</a>
+                      Supprimer
                     </button>
                 )}
                 <button

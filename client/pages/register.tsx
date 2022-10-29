@@ -4,17 +4,16 @@ import Head from "next/head";
 import { useRouter } from 'next/router';
 import { Layout } from '../components/auth/Layout';
 import { ErrorMessage, Formik } from "formik";
-import { signIn } from 'next-auth/react';
 import Link from "next/link";
 
-const Login: NextPage = () => {
+const Register: NextPage = () => {
   const [error, setError] = useState(null);
   const router = useRouter;
 
   return (
     <Layout>
       <Head>
-        <title>Se connecter</title>
+        <title>S'inscrire</title>
       </Head>
       <div>
         <img
@@ -22,11 +21,11 @@ const Login: NextPage = () => {
           src="https://tailwindui.com/img/logos/workflow-mark.svg?color=amber&shade=600"
           alt="Workflow"
         />
-        <h2 className="mt-6 text-3xl tracking-tight font-bold text-gray-900">Connectez-vous</h2>
+        <h2 className="mt-6 text-3xl tracking-tight font-bold text-gray-900">Inscrivez-vous</h2>
         <p className="mt-2 text-sm text-gray-600">
           Ou{' '}
-          <Link href="/register" className="font-medium text-amber-600 hover:text-amber-500">
-            inscrivez-vous
+          <Link href="/login" className="font-medium text-amber-600 hover:text-amber-500">
+            connectez-vous
           </Link>
         </p>
       </div>
@@ -34,15 +33,14 @@ const Login: NextPage = () => {
       <div className="mt-8">
         <div>
           <div>
-            <p className="text-sm font-medium text-gray-700">Connexion avec</p>
+            <p className="text-sm font-medium text-gray-700">Inscription avec</p>
 
             <div className="mt-1 grid grid-cols-3 gap-3">
             <div>
                   <button
-                      onClick={() => { signIn('google') }}
                       className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   >
-                      <span className="sr-only">Connexion avec Google</span>
+                      <span className="sr-only">Inscription avec Google</span>
                       <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
                       </svg>
@@ -51,10 +49,9 @@ const Login: NextPage = () => {
 
               <div>
                 <button
-                  onClick={() => { signIn('facebook') }}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span className="sr-only">Connexion avec Facebook</span>
+                  <span className="sr-only">Inscription avec Facebook</span>
                   <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fillRule="evenodd"
@@ -67,10 +64,9 @@ const Login: NextPage = () => {
 
               <div>
                 <button
-                  onClick={() => { signIn('twitter') }}
                   className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span className="sr-only">Connexion avec Twitter</span>
+                  <span className="sr-only">Inscription avec Twitter</span>
                   <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84" />
                   </svg>
@@ -107,9 +103,15 @@ const Login: NextPage = () => {
               return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
-                const res = await signIn('credentials', {
-                  email: values.email,
-                  password: values.password,
+                const res = await fetch('/users', {
+                  method: 'POST',
+                  headers: {
+                    "Content-Type":"application/json",
+                  },
+                  body: JSON.stringify({
+                    email: values.email,
+                    password: values.password,
+                  })
                 });
 
                 if(res?.error) {
@@ -152,7 +154,7 @@ const Login: NextPage = () => {
                       value={values.email}
                     />
                   </div>
-                  {errors.email && touched.email && errors.email}
+                  <ErrorMessage className="text-sm text-red-500" component="div" name="email" />
                 </div>
                 <div className="space-y-1">
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -171,14 +173,7 @@ const Login: NextPage = () => {
                       value={values.password}
                     />
                   </div>
-                  {errors.password && touched.password && errors.password}
-                </div>
-                <div className="flex justify-end">
-                  <div className="text-sm">
-                    <a href="#" className="font-medium text-amber-600 hover:text-amber-500">
-                      Mot de passe oublié ?
-                    </a>
-                  </div>
+                  <ErrorMessage className="text-sm text-red-500" component="div" name="password" />
                 </div>
                 <div>
                   <button
@@ -186,7 +181,7 @@ const Login: NextPage = () => {
                     type="submit"
                     className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
                   >
-                    Se connecter
+                    S'inscrire
                   </button>
                 </div>
               </form>
@@ -198,4 +193,4 @@ const Login: NextPage = () => {
   )
 }
 
-export default Login
+export default Register

@@ -100,16 +100,12 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                   <div className="mt-5 flex-1 h-0 overflow-y-auto">
                     <nav className="px-2 space-y-1">
                       {navigation.map((item) => (
-                        <Link key={item.name} href={item.href}>
-                          <a
-                            className={classNames(
-                              router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
-                              'group flex items-center px-2 py-2 text-base font-medium rounded-md'
-                            )}
-                          >
-                            <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-amber-300" aria-hidden="true" />
-                            {item.name}
-                          </a>
+                        <Link key={item.name} href={item.href} className={classNames(
+                          router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
+                          'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                        )}>
+                          <item.icon className="mr-4 flex-shrink-0 h-6 w-6 text-amber-300" aria-hidden="true" />
+                          {item.name}
                         </Link>
                       ))}
                     </nav>
@@ -137,16 +133,12 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
             <div className="mt-5 flex-1 flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">
                 {navigation.map((item) => (
-                  <Link key={item.name} href={item.href}>
-                    <a
-                      className={classNames(
-                        router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
-                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
-                      )}
-                    >
-                      <item.icon className="mr-3 flex-shrink-0 h-6 w-6 text-amber-300" aria-hidden="true" />
-                      {item.name}
-                    </a>
+                  <Link key={item.name} href={item.href} className={classNames(
+                    router.pathname == item.href ? 'bg-amber-800 text-white' : 'text-amber-100 hover:bg-amber-600',
+                    'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                  )}>
+                    <item.icon className="mr-3 flex-shrink-0 h-6 w-6 text-amber-300" aria-hidden="true" />
+                    {item.name}
                   </Link>
                 ))}
               </nav>
@@ -216,15 +208,11 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
-                          <Link href={item.href}>
-                            <a
-                              className={classNames(
-                                router.pathname == item.href ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
-                              )}
-                            >
-                              {item.name}
-                            </a>
+                          <Link href={item.href} className={classNames(
+                            router.pathname == item.href ? 'bg-gray-100' : '',
+                            'block px-4 py-2 text-sm text-gray-700'
+                          )}>
+                            {item.name}
                           </Link>
                         </Menu.Item>
                       ))}

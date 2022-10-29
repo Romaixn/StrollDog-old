@@ -1,9 +1,10 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, Fragment } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ErrorMessage, Formik } from "formik";
 import { fetch } from "../../../utils/dataAccess";
 import { Place } from "../../../types/Place";
+import Select from "../type/Select";
 
 interface Props {
   place?: Place;
@@ -14,11 +15,11 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this item?")) return;
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce lieu ?")) return;
 
     try {
       await fetch(place["@id"], { method: "DELETE" });
-      router.push("/places");
+      router.push("/admin/places");
     } catch (error) {
       setError(`Error when deleting the resource: ${error}`);
       console.error(error);
@@ -27,12 +28,35 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
 
   return (
     <div>
-      <h1>{place ? `Edit Place ${place["@id"]}` : `Create Place`}</h1>
       <Formik
         initialValues={place ? { ...place } : new Place()}
         validate={(values) => {
           const errors = {};
-          // add your validation logic here
+
+          if (!values.title) {
+            errors.title = "Le nom est requis";
+          }
+
+          if (!values.description) {
+            errors.description = "La description est requise";
+          }
+
+          if(!values.influx) {
+            errors.influx = "L'affluence est requise";
+          }
+
+          if(!values.address) {
+            errors.address = "L'adresse est requise";
+          }
+
+          if(!values.postalCode) {
+            errors.postalCode = "Le code postal est requis";
+          }
+
+          if(!values.city) {
+            errors.city = "La ville est requise";
+          }
+
           return errors;
         }}
         onSubmit={async (values, { setSubmitting, setStatus, setErrors }) => {
@@ -46,13 +70,12 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
               isValid: true,
               msg: `Element ${isCreation ? "created" : "updated"}.`,
             });
-            router.push("/places");
+            router.push("/admin/places");
           } catch (error) {
             setStatus({
               isValid: false,
               msg: `${error.defaultErrorMsg}`,
             });
-            setErrors(error.fields);
           }
           setSubmitting(false);
         }}
@@ -67,279 +90,194 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_title">
-                title
-              </label>
-              <input
-                name="title"
-                id="_title"
-                value={values.title ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.title && touched.title ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.title && touched.title}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+          <form onSubmit={handleSubmit} className="space-y-8 divide-y divide-gray-200">
+            {status && status.msg && (
+                <div
+                  className={`alert ${
+                    status.isValid ? "alert-success" : "alert-danger"
+                  }`}
+                  role="alert"
+                >
+                  {status.msg}
+                </div>
+              )}
+            <div className="space-y-8 divide-y divide-gray-200">
+              <div>
+                <div>
+                  <h2 className="text-lg leading-6 font-medium text-gray-900">Lieu</h2>
+                  <p className="mt-1 text-sm text-gray-500">Informations à propos du lieu</p>
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <label htmlFor="_title" className="block text-sm font-medium text-gray-700">
+                      Titre
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="title"
+                        id="_title"
+                        value={values.title ?? ""}
+                        placeholder=""
+                        className={`shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 rounded-md${
+                          errors.title && touched.title ? " border-red-500" : ""
+                        }`}
+                        aria-invalid={errors.title && touched.title}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <ErrorMessage className="text-red-500 text-sm" component="div" name="title" />
+                  </div>
+
+                  <div className="sm:col-span-6">
+                    <label htmlFor="_description" className="block text-sm font-medium text-gray-700">
+                      Description
+                    </label>
+                    <div className="mt-1">
+                      <textarea
+                        id="_description"
+                        name="description"
+                        rows={3}
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm${
+                          errors.description && touched.description ? " border-red-500" : ""
+                        }`}
+                        value={values.description ?? ""}
+                        aria-invalid={errors.description && touched.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                       <ErrorMessage
+                        className="text-red-500 text-sm"
+                        component="div"
+                        name="description"
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">Description du lieu.</p>
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <ErrorMessage className="text-red-500 text-sm" component="div" name="types" />
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label htmlFor="_influx" className="block text-sm font-medium text-gray-700">
+                      Affluence
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="influx"
+                        id="_influx"
+                        value={values.influx ?? ""}
+                        placeholder=""
+                        className={`shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 rounded-md${
+                          errors.influx && touched.influx ? " border-red-500" : ""
+                        }`}
+                        aria-invalid={errors.influx && touched.influx}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <ErrorMessage className="text-red-500 text-sm" component="div" name="influx" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-8">
+                <div>
+                  <h3 className="text-lg font-medium leading-6 text-gray-900">Localisation</h3>
+                  <p className="mt-1 text-sm text-gray-500">Informations sur la localité du lieu</p>
+                </div>
+                <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                  <div className="sm:col-span-6">
+                    <label htmlFor="_address" className="block text-sm font-medium text-gray-700">
+                      Adresse
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="address"
+                        id="_address"
+                        value={values.address ?? ""}
+                        autoComplete="street-address"
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm${
+                          errors.address && touched.address ? " border-red-500" : ""
+                        }`}
+                        aria-invalid={errors.address && touched.address}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <ErrorMessage className="text-red-500 text-sm" component="div" name="address" />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label htmlFor="_postalCode" className="block text-sm font-medium text-gray-700">
+                      Code postal
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="postalCode"
+                        id="_postalCode"
+                        value={values.postalCode ?? ""}
+                        autoComplete="postal-code"
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm${
+                          errors.postalCode && touched.postalCode ? " border-red-500" : ""
+                        }`}
+                        aria-invalid={errors.postalCode && touched.postalCode}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <ErrorMessage className="text-red-500 text-sm" component="div" name="postalCode"/>
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label htmlFor="_city" className="block text-sm font-medium text-gray-700">
+                      Ville
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        type="text"
+                        name="city"
+                        id="_city"
+                        value={values.city ?? ""}
+                        autoComplete="address-level2"
+                        className={`block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 sm:text-sm${
+                          errors.city && touched.city ? " border-red-500" : ""
+                        }`}
+                        aria-invalid={errors.city && touched.city}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      <ErrorMessage className="text-red-500 text-sm" component="div" name="city" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="title"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_description">
-                description
-              </label>
-              <input
-                name="description"
-                id="_description"
-                value={values.description ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.description && touched.description ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.description && touched.description}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+
+            <div className="pt-5">
+              <div className="flex justify-end">
+                <Link href="/admin/places" className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                  Retour
+                </Link>
+                {place && (
+                    <button type="button" onClick={handleDelete} className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                      Supprimer
+                    </button>
+                )}
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                >
+                  {place ? "Modifier" : "Créer"}
+                </button>
+              </div>
             </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="description"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_address">
-                address
-              </label>
-              <input
-                name="address"
-                id="_address"
-                value={values.address ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.address && touched.address ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.address && touched.address}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="address"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_city">
-                city
-              </label>
-              <input
-                name="city"
-                id="_city"
-                value={values.city ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.city && touched.city ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.city && touched.city}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage className="text-danger" component="div" name="city" />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_postalCode">
-                postalCode
-              </label>
-              <input
-                name="postalCode"
-                id="_postalCode"
-                value={values.postalCode ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.postalCode && touched.postalCode ? " is-invalid" : ""
-              }`}
-                aria-invalid={errors.postalCode && touched.postalCode}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="postalCode"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_influx">
-                influx
-              </label>
-              <input
-                name="influx"
-                id="_influx"
-                value={values.influx ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.influx && touched.influx ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.influx && touched.influx}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="influx"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_types">
-                types
-              </label>
-              <input
-                name="types"
-                id="_types"
-                value={values.types ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.types && touched.types ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.types && touched.types}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="types"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_longitude">
-                longitude
-              </label>
-              <input
-                name="longitude"
-                id="_longitude"
-                value={values.longitude ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.longitude && touched.longitude ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.longitude && touched.longitude}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="longitude"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_latitude">
-                latitude
-              </label>
-              <input
-                name="latitude"
-                id="_latitude"
-                value={values.latitude ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.latitude && touched.latitude ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.latitude && touched.latitude}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="latitude"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_rating">
-                rating
-              </label>
-              <input
-                name="rating"
-                id="_rating"
-                value={values.rating ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.rating && touched.rating ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.rating && touched.rating}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="rating"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_comments">
-                comments
-              </label>
-              <input
-                name="comments"
-                id="_comments"
-                value={values.comments ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.comments && touched.comments ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.comments && touched.comments}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="comments"
-            />
-            <div className="form-group">
-              <label className="form-control-label" htmlFor="_creator">
-                creator
-              </label>
-              <input
-                name="creator"
-                id="_creator"
-                value={values.creator ?? ""}
-                type="text"
-                placeholder=""
-                className={`form-control${
-                  errors.creator && touched.creator ? " is-invalid" : ""
-                }`}
-                aria-invalid={errors.creator && touched.creator}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </div>
-            <ErrorMessage
-              className="text-danger"
-              component="div"
-              name="creator"
-            />
 
             {status && status.msg && (
               <div
@@ -351,25 +289,9 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
                 {status.msg}
               </div>
             )}
-
-            <button
-              type="submit"
-              className="btn btn-success"
-              disabled={isSubmitting}
-            >
-              Submit
-            </button>
           </form>
         )}
       </Formik>
-      <Link href="/places">
-        <a className="btn btn-primary">Back to list</a>
-      </Link>
-      {place && (
-        <button className="btn btn-danger" onClick={handleDelete}>
-          <a>Delete</a>
-        </button>
-      )}
     </div>
   );
 };

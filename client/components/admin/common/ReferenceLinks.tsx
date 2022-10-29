@@ -25,16 +25,14 @@ const ReferenceLinks: FunctionComponent<Props> = ({
 
   return (
     <Link href={`/admin/${items}`}>
-      <a>
-        {useIcon ? (
-          <Fragment>
-            <i className="bi bi-search" aria-hidden="true"></i>
-            <span className="sr-only">Show</span>
-          </Fragment>
-        ) : (
-          items
-        )}
-      </a>
+      {useIcon ? (
+        <Fragment>
+          <i className="bi bi-search" aria-hidden="true"></i>
+          <span className="sr-only">Show</span>
+        </Fragment>
+      ) : (
+        items
+      )}
     </Link>
   );
 };
