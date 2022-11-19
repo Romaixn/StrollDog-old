@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -32,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[GetCollection]
 #[Post(
     security: "is_granted('ROLE_USER')",
+    securityMessage: 'You must be logged in to create a place',
     processor: PlacePostProcessor::class
 )]
 #[Put(
@@ -47,11 +49,13 @@ class Place
     #[ORM\Id, ORM\GeneratedValue(strategy: 'CUSTOM'), ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[ORM\Column(type: 'uuid', unique: true)]
     #[Groups(groups: ['place:read'])]
+    #[ApiProperty(types: ['http://schema.org/identifier'])]
     private ?UuidInterface $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Groups(groups: ['place:read', 'place:write'])]
+    #[ApiProperty(types: ['http://schema.org/name'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
