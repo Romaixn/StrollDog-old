@@ -1,31 +1,31 @@
 import { Fragment, FunctionComponent, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { Type } from '../../../types/Type'
+import { Influx } from "../../../types/Influx";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
 interface Props {
-  types: Type[],
-  value: string[]|undefined,
+  influx: Influx[],
+  value: string|undefined,
 }
 
 export const Select: FunctionComponent<Props> = ({
-  types,
+  influx,
   value
 }) => {
-  const [selected, setSelected] = useState(value ? types.filter(type => value?.includes(type['@id'])) : [types[0]])
+  const [selected, setSelected] = useState(value ? influx.find(type => type['@id'] === value) : influx[0])
 
   return (
-    <Listbox value={selected} onChange={setSelected} multiple>
+    <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-sm font-medium text-gray-700">Types</Listbox.Label>
+          <Listbox.Label className="block text-sm font-medium text-gray-700">Affluence</Listbox.Label>
           <div className="relative mt-1">
             <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-amber-500 focus:outline-none focus:ring-1 focus:ring-amber-500 sm:text-sm">
-              <span className="block truncate">{selected.map((type) => type.name).join(', ')}</span>
+              <span className="block truncate">{selected?.value}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
@@ -39,7 +39,7 @@ export const Select: FunctionComponent<Props> = ({
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {types.map((type) => (
+                {influx.map((type) => (
                   <Listbox.Option
                     key={type['@id']}
                     className={({ active }) =>
@@ -53,7 +53,7 @@ export const Select: FunctionComponent<Props> = ({
                     {({ selected, active }) => (
                       <>
                         <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                          {type.name}
+                          {type.value}
                         </span>
 
                         {selected ? (

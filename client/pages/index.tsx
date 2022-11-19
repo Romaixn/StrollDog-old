@@ -128,7 +128,7 @@ const Home: NextPage<Props> = ({ token }) => {
                 <span className="block text-amber-200">aussi simple</span>
               </h1>
               <p className="mx-auto mt-6 max-w-lg text-center text-xl text-amber-200 sm:max-w-3xl">
-                rouver un lieu qui vous correspond à vous et votre chien, organiser une balade simplement.
+                Trouver un lieu qui vous correspond à vous et votre chien, organiser une balade simplement.
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                 <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">

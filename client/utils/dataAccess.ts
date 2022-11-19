@@ -39,8 +39,6 @@ export const fetch = async (id: string, init: RequestInit = {}) => {
   const defaultErrorMsg = json["hydra:title"];
   const status = json["hydra:description"] || resp.statusText;
 
-  console.log(json);
-
   if (!json.violations) throw Error(defaultErrorMsg);
   const fields = {};
   json.violations.map(

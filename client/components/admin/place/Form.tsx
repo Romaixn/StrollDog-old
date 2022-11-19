@@ -4,13 +4,18 @@ import { useRouter } from "next/router";
 import { ErrorMessage, Formik } from "formik";
 import { fetch } from "../../../utils/dataAccess";
 import { Place } from "../../../types/Place";
-import Select from "../type/Select";
+import { Select as SelectType } from "../type/Select";
+import { Select as SelectInflux } from "../influx/Select";
+import {Influx} from "../../../types/Influx";
+import {Type} from "../../../types/Type";
 
 interface Props {
-  place?: Place;
+  place?: Place,
+  influx: Influx[],
+  types: Type[],
 }
 
-export const Form: FunctionComponent<Props> = ({ place }) => {
+export const Form: FunctionComponent<Props> = ({ place, influx, types }) => {
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -39,6 +44,10 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
 
           if (!values.description) {
             errors.description = "La description est requise";
+          }
+
+          if(!values.types) {
+            errors.types = "Vous devez choisir au moins un type";
           }
 
           if(!values.influx) {
@@ -157,28 +166,12 @@ export const Form: FunctionComponent<Props> = ({ place }) => {
                   </div>
 
                   <div className="sm:col-span-3">
+                    <SelectType types={types} value={values.types} />
                     <ErrorMessage className="text-red-500 text-sm" component="div" name="types" />
                   </div>
 
                   <div className="sm:col-span-3">
-                    <label htmlFor="_influx" className="block text-sm font-medium text-gray-700">
-                      Affluence
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        type="text"
-                        name="influx"
-                        id="_influx"
-                        value={values.influx ?? ""}
-                        placeholder=""
-                        className={`shadow-sm focus:ring-amber-500 focus:border-amber-500 block w-full sm:text-sm border-gray-300 rounded-md${
-                          errors.influx && touched.influx ? " border-red-500" : ""
-                        }`}
-                        aria-invalid={errors.influx && touched.influx}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                    </div>
+                    <SelectInflux influx={influx} value={values.influx}/>
                     <ErrorMessage className="text-red-500 text-sm" component="div" name="influx" />
                   </div>
                 </div>

@@ -7,9 +7,11 @@ import { Layout } from "../../../../components/admin/Layout";
 
 interface Props {
   place: Place;
+  influx: PagedCollection<Influx>,
+  types: PagedCollection<Type>,
 }
 
-const Page: NextComponentType<NextPageContext, Props, Props> = ({ place }) => {
+const Page: NextComponentType<NextPageContext, Props, Props> = ({ place, influx, types}) => {
   return (
     <Layout>
       <div>
@@ -17,7 +19,7 @@ const Page: NextComponentType<NextPageContext, Props, Props> = ({ place }) => {
           <title>{place && `Edit Place ${place["@id"]}`}</title>
         </Head>
       </div>
-      <Form place={place} />
+      <Form place={place} influx={influx['hydra:member']} types={types['hydra:member']} />
     </Layout>
   );
 };
@@ -27,7 +29,10 @@ Page.getInitialProps = async ({ asPath }: NextPageContext) => {
   apiPath = apiPath.replace("admin/", "");
   const place = await fetch(apiPath);
 
-  return { place };
+  const influx = await fetch("/influxes");
+  const types = await fetch("/types");
+
+  return { place, influx, types };
 };
 
 export default Page;
