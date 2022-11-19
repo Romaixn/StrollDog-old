@@ -12,3 +12,10 @@ App\Entity\User:
         name: 'Admin'
         password: '\$2y\$13\$6aKii4JYnvdPwmEwNicPBeHvkbc5z/HHfZEL1PxsZhXNvlk9oVbfe' # admin
         roles: [ROLE_ADMIN] # This role inherits from all other rights
+    
+    user:
+        username: user
+        email: user@stroll.dog
+        name: 'User'
+        password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$R7Yp2KvbpMryniA498C8hg\$KvwosmkhXg/Mi4ftiI7Ld6zb2BqZmH9FIpUzwbsuX50' # test
+        roles: []
