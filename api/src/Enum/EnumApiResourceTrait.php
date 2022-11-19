@@ -11,26 +11,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait EnumApiResourceTrait
 {
     #[ApiProperty(types: ['https://schema.org/identifier'])]
-    public function getId()
+    public function getId(): string
     {
         return $this->name;
     }
 
     #[Groups('read')]
     #[ApiProperty(types: ['https://schema.org/name'])]
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public static function getCases()
+    /**
+     * @return array<int, Influx::HIGH|Influx::LOW|Influx::MODERATE>
+     */
+    public static function getCases(): array
     {
         return self::cases();
     }
 
-    public static function getCase(Operation $operation, array $uriVariables)
+    /**
+     * @param array<string> $uriVariables
+     */
+    public static function getCase(Operation $operation, array $uriVariables): Influx|null
     {
         $name = $uriVariables['id'] ?? null;
-        return self::tryFrom($name);
+        return self::tryFrom((string)$name);
     }
 }
