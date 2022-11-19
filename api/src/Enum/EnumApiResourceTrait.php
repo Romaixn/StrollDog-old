@@ -37,6 +37,7 @@ trait EnumApiResourceTrait
     public static function getCase(Operation $operation, array $uriVariables): Influx|null
     {
         $name = $uriVariables['id'] ?? null;
-        return self::tryFrom((string)$name);
+
+        return self::tryFrom((string) $name);
     }
 }

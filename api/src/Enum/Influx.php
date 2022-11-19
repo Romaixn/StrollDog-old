@@ -9,17 +9,16 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ApiResource(
-    description: "Influx used for a place",
+    description: 'Influx used for a place',
     types: ['https://schema.org/Enumeration'],
     normalizationContext: ['groups' => ['read']]
 )]
-#[GetCollection(provider: Influx::class. '::getCases')]
-#[Get(provider: Influx::class. '::getCase')]
+#[GetCollection(provider: Influx::class.'::getCases')]
+#[Get(provider: Influx::class.'::getCase')]
 enum Influx: string
 {
+    use EnumApiResourceTrait;
     case LOW = 'low';
     case MODERATE = 'moderate';
     case HIGH = 'high';
-
-    use EnumApiResourceTrait;
 }
