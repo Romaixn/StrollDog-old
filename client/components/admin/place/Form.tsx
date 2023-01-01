@@ -81,6 +81,7 @@ export const Form: FunctionComponent<Props> = ({ place, influx, types }) => {
             });
             router.push("/admin/places");
           } catch (error) {
+            console.log({'error': error});
             setStatus({
               isValid: false,
               msg: `${error.defaultErrorMsg}`,
@@ -171,7 +172,7 @@ export const Form: FunctionComponent<Props> = ({ place, influx, types }) => {
                   </div>
 
                   <div className="sm:col-span-3">
-                    <SelectInflux influx={influx} value={values.influx}/>
+                    <SelectInflux influx={influx} value={values.influx} />
                     <ErrorMessage className="text-red-500 text-sm" component="div" name="influx" />
                   </div>
                 </div>

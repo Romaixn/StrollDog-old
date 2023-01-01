@@ -9,7 +9,7 @@ function classNames(...classes: string[]) {
 
 interface Props {
   types: Type[],
-  value: string[]|undefined,
+  value: string[]|undefined
 }
 
 export const Select: FunctionComponent<Props> = ({
@@ -19,7 +19,7 @@ export const Select: FunctionComponent<Props> = ({
   const [selected, setSelected] = useState(value ? types.filter(type => value?.includes(type['@id'])) : [types[0]])
 
   return (
-    <Listbox value={selected} onChange={setSelected} multiple>
+    <Listbox value={selected} onChange={setSelected} name="types" multiple>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">Types</Listbox.Label>

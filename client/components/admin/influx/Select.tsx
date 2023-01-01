@@ -19,7 +19,7 @@ export const Select: FunctionComponent<Props> = ({
   const [selected, setSelected] = useState(value ? influx.find(type => type['@id'] === value) : influx[0])
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={setSelected} name="influx">
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">Affluence</Listbox.Label>

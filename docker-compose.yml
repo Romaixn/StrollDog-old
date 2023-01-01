@@ -36,7 +36,7 @@ services:
       target: app_caddy
     depends_on:
       - php
-      - client
+      - client 
     environment:
       CLIENT_UPSTREAM: client:3000
       SERVER_NAME: ${SERVER_NAME:-localhost}, caddy:80
@@ -60,8 +60,8 @@ services:
       - target: 443
         published: ${HTTP3_PORT:-443}
         protocol: udp
-
-###> doctrine/doctrine-bundle ###
+  
+  ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-14}-alpine
     environment:
@@ -83,7 +83,7 @@ volumes:
   php_socket:
   caddy_data:
   caddy_config:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   db_data:
 ###< doctrine/doctrine-bundle ###
 ###> symfony/mercure-bundle ###
