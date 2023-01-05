@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -18,11 +19,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource(
@@ -32,8 +36,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[Get]
 #[GetCollection(security: "is_granted('ROLE_ADMIN')")]
-#[Post(processor: UserPasswordHasher::class)]
+#[Post(
+    inputFormats: ['multipart' => ['multipart/form-data']],
+    processor: UserPasswordHasher::class
+)]
 #[Put(
+    inputFormats: ['multipart' => ['multipart/form-data']],
     security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)",
     securityMessage: 'Only the user can update his own profile',
     processor: UserPasswordHasher::class
@@ -95,6 +103,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $instagramId = null;
+
+    #[ApiProperty(types: ['https://schema.org/contentUrl'])]
+    #[Groups(['user:read'])]
+    public ?string $contentUrl = null;
+
+    #[Vich\UploadableField(mapping: 'user_avatar', fileNameProperty: 'avatarPath')]
+    #[Groups(['user:create', 'user:update'])]
+    public ?File $avatar = null;
+
+    #[ORM\Column(nullable: true)]
+    public ?string $avatarPath = null;
 
     public function __construct()
     {
@@ -183,7 +202,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials(): void
     {
-         $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getUsername(): ?string
@@ -304,5 +323,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->instagramId = $instagramId;
 
         return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContentUrl(): ?string
+    {
+        return $this->contentUrl;
+    }
+
+    /**
+     * @param string|null $contentUrl
+     */
+    public function setContentUrl(?string $contentUrl): void
+    {
+        $this->contentUrl = $contentUrl;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getAvatar(): ?File
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param File|null $avatar
+     */
+    public function setAvatar(?File $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAvatarPath(): ?string
+    {
+        return $this->avatarPath;
+    }
+
+    /**
+     * @param string|null $avatarPath
+     */
+    public function setAvatarPath(?string $avatarPath): void
+    {
+        $this->avatarPath = $avatarPath;
     }
 }
