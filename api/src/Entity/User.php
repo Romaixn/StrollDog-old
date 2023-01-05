@@ -11,11 +11,13 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
+use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -26,19 +28,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     types: ['https://schema.org/User'],
     normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:write']]
+    denormalizationContext: ['groups' => ['user:create', 'user:update']]
 )]
 #[Get]
 #[GetCollection(security: "is_granted('ROLE_ADMIN')")]
-#[Post]
+#[Post(processor: UserPasswordHasher::class)]
 #[Put(
     security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)",
-    securityMessage: 'Only the user can update his own profile'
+    securityMessage: 'Only the user can update his own profile',
+    processor: UserPasswordHasher::class
 )]
 #[Delete(
     security: "is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and object == user)",
     securityMessage: 'Only the user can delete his own profile'
 )]
+#[UniqueEntity(['email', 'username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id, ORM\GeneratedValue(strategy: 'CUSTOM'), ORM\CustomIdGenerator(class: UuidGenerator::class)]
@@ -47,18 +51,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?UuidInterface $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(groups: ['user:read', 'user:write'])]
+    #[Groups(groups: ['user:read', 'user:create', 'user:update'])]
     #[Assert\NotBlank]
     #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Groups(groups: ['user:read', 'user:write'])]
+    #[Groups(groups: ['user:read', 'user:create', 'user:update'])]
     #[Assert\NotBlank]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(groups: ['user:read', 'user:write'])]
+    #[Groups(groups: ['user:read', 'user:create', 'user:update'])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -66,15 +70,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var array<string>
      */
     #[ORM\Column]
-    #[Groups(groups: ['user:read'])]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
-    #[Groups(groups: ['user:write'])]
     private ?string $password = null;
+
+    #[Assert\NotBlank(groups: ['user:create'])]
+    #[Groups(['user:create', 'user:update'])]
+    private ?string $plainPassword = null;
 
     #[ORM\OneToMany(mappedBy: 'creator', targetEntity: Comment::class, orphanRemoval: true)]
     #[Groups(groups: ['user:read'])]
@@ -163,13 +166,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $painPassword): self
+    {
+        $this->plainPassword = $painPassword;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
     public function eraseCredentials(): void
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+         $this->plainPassword = null;
     }
 
     public function getUsername(): ?string
