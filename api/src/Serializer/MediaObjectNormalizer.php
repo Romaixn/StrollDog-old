@@ -14,7 +14,7 @@ final class MediaObjectNormalizer implements NormalizerInterface, NormalizerAwar
 
     private const ALREADY_CALLED = 'MEDIA_OBJECT_NORMALIZER_ALREADY_CALLED';
 
-    public function __construct(private StorageInterface $storage)
+    public function __construct(private readonly StorageInterface $storage)
     {
     }
 
@@ -22,11 +22,15 @@ final class MediaObjectNormalizer implements NormalizerInterface, NormalizerAwar
     {
         $context[self::ALREADY_CALLED] = true;
 
+        /** @var User $object */
         $object->contentUrl = $this->storage->resolveUri($object, 'avatar');
 
         return $this->normalizer->normalize($object, $format, $context);
     }
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
         if (isset($context[self::ALREADY_CALLED])) {

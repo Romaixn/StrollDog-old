@@ -9,10 +9,12 @@ final class MultipartDecoder implements DecoderInterface
 {
     public const FORMAT = 'multipart';
 
-    public function __construct(private RequestStack $requestStack) {}
+    public function __construct(private readonly RequestStack $requestStack) {}
 
     /**
      * {@inheritdoc}
+     *
+     * @return array<string, mixed> The decoded data
      */
     public function decode(string $data, string $format, array $context = []): ?array
     {
@@ -22,9 +24,10 @@ final class MultipartDecoder implements DecoderInterface
             return null;
         }
 
+        /** @phpstan-ignore-next-line */
         return array_map(static function (string $element) {
                 // Multipart form values will be encoded in JSON.
-                $decoded = json_decode($element, true);
+                $decoded = json_decode($element, true, 512, JSON_THROW_ON_ERROR);
 
                 return \is_array($decoded) ? $decoded : $element;
             }, $request->request->all()) + $request->files->all();

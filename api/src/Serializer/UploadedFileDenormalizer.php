@@ -9,6 +9,7 @@ final class UploadedFileDenormalizer implements DenormalizerInterface
 {
     /**
      * {@inheritdoc}
+     * @param UploadedFile $data
      */
     public function denormalize($data, string $type, string $format = null, array $context = []): UploadedFile
     {
