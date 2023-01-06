@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
           password: credentials?.password
         }
 
-        const user = await fetch("/authentication_token", {
+        const user = await fetch("/auth", {
           method: "POST",
           body: JSON.stringify(payload),
           headers: {
