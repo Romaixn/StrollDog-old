@@ -7,6 +7,7 @@ namespace App\Tests\Api;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\User;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UsersTest extends ApiTestCase
 {
@@ -14,39 +15,43 @@ class UsersTest extends ApiTestCase
 
     public function testCreateUser(): void
     {
-        $response = static::createClient()->request('POST', '/users', ['json' => [
-            'email' => 'john@doe.com',
-            'username' => 'johndoe',
-            'name' => 'John Doe',
-            'password' => 'johndoepassword1325*',
-        ]]);
+        $avatar = new UploadedFile('fixtures/files/image.jpg', 'image.jpg');
 
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-        $this->assertJsonContains([
-            '@context' => '/contexts/User',
-            '@type' => 'https://schema.org/User',
-            'email' => 'john@doe.com',
-            'username' => 'johndoe',
-            'name' => 'John Doe',
-            'roles' => ['ROLE_USER'],
-            'comments' => [],
-            'places' => [],
+        $response = static::createClient()->request('POST', '/users', [
+            'headers' => ['Content-Type' => 'multipart/form-data'],
+            'extra' => [
+                'parameters' => [
+                    'email' => 'john@doe.com',
+                    'username' => 'johndoe',
+                    'name' => 'John Doe',
+                    'plainPassword' => 'johndoepassword1325*',
+                ],
+                'files' => [
+                    'avatar' => $avatar,
+                ],
+            ]
         ]);
 
-        $this->assertMatchesResourceItemJsonSchema(User::class);
+        self::assertResponseStatusCodeSame(201);
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        self::assertMatchesResourceItemJsonSchema(User::class);
     }
 
     public function testCreateInvalidUser(): void
     {
-        static::createClient()->request('POST', '/users', ['json' => [
-            'email' => 'invalid',
-        ]]);
+        static::createClient()->request('POST', '/users', [
+            'headers' => ['Content-Type' => 'multipart/form-data'],
+            'extra' => [
+                'parameters' => [
+                    'email' => 'invalid'
+                ]
+            ]
+        ]);
 
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        self::assertResponseStatusCodeSame(422);
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        $this->assertJsonContains([
+        self::assertJsonContains([
             '@context' => '/contexts/ConstraintViolationList',
             '@type' => 'ConstraintViolationList',
             'hydra:title' => 'An error occurred',

@@ -18,8 +18,9 @@ final class UploadedFileDenormalizer implements DenormalizerInterface
 
     /**
      * {@inheritdoc}
+     * @param array<string, mixed> $context
      */
-    public function supportsDenormalization($data, $type, $format = null): bool
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $data instanceof UploadedFile;
     }
