@@ -26,79 +26,11 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
-const solutions = [
-  {
-    name: 'Inbox',
-    description: 'Get a better understanding of where your traffic is coming from.',
-    href: '#',
-    icon: InboxIcon,
-  },
-  {
-    name: 'Messaging',
-    description: 'Speak directly to your customers in a more meaningful way.',
-    href: '#',
-    icon: ChatBubbleBottomCenterTextIcon,
-  },
-  {
-    name: 'Live Chat',
-    description: "Your customers' data will be safe and secure.",
-    href: '#',
-    icon: ChatBubbleLeftRightIcon,
-  },
-  {
-    name: 'Knowledge Base',
-    description: "Connect with third-party tools that you're already using.",
-    href: '#',
-    icon: QuestionMarkCircleIcon,
-  },
-]
-const features = [
-  {
-    name: 'Unlimited Inboxes',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: InboxIcon,
-  },
-  {
-    name: 'Manage Team Members',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: UsersIcon,
-  },
-  {
-    name: 'Spam Report',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: TrashIcon,
-  },
-  {
-    name: 'Compose in Markdown',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: PencilSquareIcon,
-  },
-  {
-    name: 'Team Reporting',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: DocumentChartBarIcon,
-  },
-  {
-    name: 'Saved Replies',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: ArrowUturnLeftIcon,
-  },
-  {
-    name: 'Email Commenting',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: ChatBubbleLeftEllipsisIcon,
-  },
-  {
-    name: 'Connect with Customers',
-    description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
-    icon: HeartIcon,
-  },
-]
 const metrics = [
-  { id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet lacus nibh integer quis.' },
-  { id: 2, stat: '25K+', emphasis: 'Countries around the globe', rest: 'lacus nibh integer quis.' },
-  { id: 3, stat: '98%', emphasis: 'Customer satisfaction', rest: 'laoreet amet lacus nibh integer quis.' },
-  { id: 4, stat: '12M+', emphasis: 'Issues resolved', rest: 'lacus nibh integer quis.' },
+  { id: 1, stat: '50+', emphasis: 'Lieux', rest: 'disponibles' },
+  { id: 2, stat: '100+', emphasis: 'Membres', rest: 'inscrits' },
+  { id: 3, stat: '10+', emphasis: 'Villes', rest: 'différentes' },
+  { id: 4, stat: '10+', emphasis: 'Balades', rest: 'en cours d\'organisation' },
 ]
 
 interface Props {
@@ -167,44 +99,16 @@ const Home: NextPage<Props> = ({ token }) => {
                 </div>
                 <div className="mt-6">
                   <h2 className="text-3xl font-bold tracking-tight text-gray-900">Trouver un lieu</h2>
-                  <p className="mt-4 text-lg text-gray-500">
-                    Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis bibendum malesuada faucibus lacinia
-                    porttitor. Pulvinar laoreet sagittis viverra duis. In venenatis sem arcu pretium pharetra at.
-                    Lectus viverra dui tellus ornare pharetra.
-                  </p>
+                  <p className="mt-4 text-lg text-gray-500">Trouver un lieu qui vous correspond à vous et à votre chien grâce à notre algorithme de recherche puissant.</p>
                   <div className="mt-6">
-                    <a
-                      href="#"
+                    <Link
+                      href="/places"
                       className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-orange-600 to-amber-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-orange-700 hover:to-amber-700"
                     >
-                      Get started
-                    </a>
+                      Trouver un lieu
+                    </Link>
                   </div>
                 </div>
-              </div>
-              <div className="mt-8 border-t border-gray-200 pt-6">
-                <blockquote>
-                  <div>
-                    <p className="text-base text-gray-500">
-                      &ldquo;Cras velit quis eros eget rhoncus lacus ultrices sed diam. Sit orci risus aenean
-                      curabitur donec aliquet. Mi venenatis in euismod ut.&rdquo;
-                    </p>
-                  </div>
-                  <footer className="mt-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="flex-shrink-0">
-                        <img
-                          className="h-6 w-6 rounded-full"
-                          src="https://images.unsplash.com/photo-1509783236416-c9ad59bae472?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <div className="text-base font-medium text-gray-700">
-                        Marcia Hill, Digital Marketing Manager
-                      </div>
-                    </div>
-                  </footer>
-                </blockquote>
               </div>
             </div>
             <div className="mt-12 sm:mt-16 lg:mt-0">
@@ -231,17 +135,13 @@ const Home: NextPage<Props> = ({ token }) => {
                   <h2 className="text-3xl font-bold tracking-tight text-gray-900">
                     Organiser une balade
                   </h2>
-                  <p className="mt-4 text-lg text-gray-500">
-                    Semper curabitur ullamcorper posuere nunc sed. Ornare iaculis bibendum malesuada faucibus lacinia
-                    porttitor. Pulvinar laoreet sagittis viverra duis. In venenatis sem arcu pretium pharetra at.
-                    Lectus viverra dui tellus ornare pharetra.
-                  </p>
+                  <p className="mt-4 text-lg text-gray-500">Trouver des personnes pour organiser une balade facilement. Discutez avec les membres de la plateforme.</p>
                   <div className="mt-6">
                     <a
                       href="#"
                       className="inline-flex rounded-md border border-transparent bg-gradient-to-r from-orange-600 to-amber-600 bg-origin-border px-4 py-2 text-base font-medium text-white shadow-sm hover:from-orange-700 hover:to-amber-700"
                     >
-                      Get started
+                      Voir les balades en cours
                     </a>
                   </div>
                 </div>
