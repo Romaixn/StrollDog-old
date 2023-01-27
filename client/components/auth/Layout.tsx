@@ -23,7 +23,6 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
                 className="h-full"
                 alt="3 people walking in a forest with their dogs"
                 layout="fill"
-                objectFit="cover"
                 placeholder="blur"
               />
             </div>

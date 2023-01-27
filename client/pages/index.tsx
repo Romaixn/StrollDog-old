@@ -1,30 +1,14 @@
 import type { NextPage } from 'next'
-import { useSession } from "next-auth/react"
-import { signOut } from "next-auth/react"
-import {Layout} from "../components/front/Layout";
+import { Layout } from "../components/front/Layout";
 import Link from "next/link";
 import Image from 'next/image';
 import hero from '../images/dog-walk.jpg';
 import banner from '../images/dog-walk-2.jpg';
 
 import {
-  ArrowUturnLeftIcon,
-  Bars3Icon,
-  ChatBubbleBottomCenterTextIcon,
-  ChatBubbleLeftEllipsisIcon,
-  ChatBubbleLeftRightIcon,
-  DocumentChartBarIcon,
-  HeartIcon,
-  InboxIcon,
-  PencilSquareIcon,
-  QuestionMarkCircleIcon,
   SparklesIcon,
-  TrashIcon,
-  UsersIcon,
   MapPinIcon,
-  XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const metrics = [
   { id: 1, stat: '50+', emphasis: 'Lieux', rest: 'disponibles' },
@@ -33,12 +17,8 @@ const metrics = [
   { id: 4, stat: '10+', emphasis: 'Balades', rest: 'en cours d\'organisation' },
 ]
 
-interface Props {
-  token: object;
-}
+const Home: NextPage = () => {
 
-const Home: NextPage<Props> = ({ token }) => {
-  const { data: session, status } = useSession()
   return (
     <Layout>
       <div className="relative">
