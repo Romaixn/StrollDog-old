@@ -6,13 +6,12 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\User;
+use App\Tests\AbstractTest;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class UsersTest extends ApiTestCase
+class UsersTest extends AbstractTest
 {
-    use RefreshDatabaseTrait;
-
     public function testCreateUser(): void
     {
         $avatar = new UploadedFile('fixtures/files/image.jpg', 'image.jpg');

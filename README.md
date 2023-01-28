@@ -46,12 +46,7 @@ StrollDog is a website that allows you to find the best places to walk your dog 
     * [Prerequisites](#bangbang-prerequisites)
     * [Installation](#gear-installation)
     * [Running Tests](#test_tube-running-tests)
-    * [Run Locally](#running-run-locally)
-    * [Deployment](#triangular_flag_on_post-deployment)
-- [Contributing](#wave-contributing)
-- [License](#warning-license)
 - [Contact](#handshake-contact)
-- [Acknowledgements](#gem-acknowledgements)
 
 
 

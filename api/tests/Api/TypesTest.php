@@ -6,12 +6,11 @@ namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Type;
+use App\Tests\AbstractTest;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
-class TypesTest extends ApiTestCase
+class TypesTest extends AbstractTest
 {
-    use RefreshDatabaseTrait;
-
     public function testGetCollection(): void
     {
         $response = static::createClient()->request('GET', '/types');
