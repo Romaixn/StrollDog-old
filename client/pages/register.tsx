@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { Layout } from '../components/auth/Layout';
 import { ErrorMessage, Formik } from "formik";
 import Link from "next/link";
+import { Logo } from "../components/shared/Logo";
 
 const Register: NextPage = () => {
   const [error, setError] = useState(null);
@@ -16,11 +17,7 @@ const Register: NextPage = () => {
         <title>S'inscrire</title>
       </Head>
       <div>
-        <img
-          className="h-12 w-auto"
-          src="https://tailwindui.com/img/logos/workflow-mark.svg?color=amber&shade=600"
-          alt="Workflow"
-        />
+        <Logo className="h-12 w-auto text-amber-600" />
         <h2 className="mt-6 text-3xl tracking-tight font-bold text-gray-900">Inscrivez-vous</h2>
         <p className="mt-2 text-sm text-gray-600">
           Ou{' '}
