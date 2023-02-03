@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { FunctionComponent } from "react";
+import { Logo } from '../shared/Logo';
 import { User } from "../../types/User";
 import { useRouter } from 'next/router';
 
@@ -91,11 +92,7 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
                     </div>
                   </Transition.Child>
                   <div className="flex-shrink-0 flex items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/workflow-mark.svg?color=amber&shade=300"
-                      alt="Workflow"
-                    />
+                    <Logo className="h-8 w-auto text-amber-300" />
                   </div>
                   <div className="mt-5 flex-1 h-0 overflow-y-auto">
                     <nav className="px-2 space-y-1">
@@ -124,11 +121,7 @@ export const Layout: FunctionComponent<Props> = ({ user, header, children }) => 
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex flex-col flex-grow pt-5 bg-amber-700 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/workflow-mark.svg?color=amber&shade=300"
-                alt="Workflow"
-              />
+              <Logo className="h-8 w-auto text-amber-300" />
             </div>
             <div className="mt-5 flex-1 flex flex-col">
               <nav className="flex-1 px-2 pb-4 space-y-1">

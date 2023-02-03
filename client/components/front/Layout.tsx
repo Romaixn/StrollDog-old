@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from 'next/router';
+import { Logo } from "../shared/Logo";
 
 const links = [
   {
@@ -119,11 +120,7 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <a href="#">
                 <span className="sr-only">StrollDog</span>
-                <img
-                  className="h-8 w-auto sm:h-10"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=amber&shade=600"
-                  alt=""
-                />
+                <Logo className="h-8 w-auto sm:h-10 text-amber-600" />
               </a>
             </div>
             <div className="-my-2 -mr-2 md:hidden">
