@@ -1,11 +1,11 @@
-import { Fragment, FunctionComponent } from "react";
-import { Popover, Transition, Menu } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon, HeartIcon, BellIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import React, { Fragment, FunctionComponent, SVGProps} from "react";
+import {Popover, Transition, Menu} from '@headlessui/react'
+import {Bars3Icon, XMarkIcon, HeartIcon, BellIcon} from '@heroicons/react/24/outline'
+import {ChevronDownIcon} from '@heroicons/react/20/solid'
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from 'next/router';
-import { Logo } from "../shared/Logo";
+import {useSession, signOut} from "next-auth/react";
+import {useRouter} from 'next/router';
+import {Logo} from "../shared/Logo";
 
 const links = [
   {
@@ -37,22 +37,22 @@ const socials = [
 ]
 
 const userNavigation = [
-  { name: 'Votre profil', href: '#' },
-  { name: 'Paramètres', href: '#' }
+  {name: 'Votre profil', href: '#'},
+  {name: 'Paramètres', href: '#'}
 ]
 
 const footerNavigation = {
   main: [
-    { name: 'A propos', href: '#' },
-    { name: 'Lieux', href: '#' },
-    { name: 'Membres', href: '#' },
-    { name: 'Contact', href: '#' },
+    {name: 'A propos', href: '#'},
+    {name: 'Lieux', href: '#'},
+    {name: 'Membres', href: '#'},
+    {name: 'Contact', href: '#'},
   ],
   social: [
     {
       name: 'Facebook',
       href: '#',
-      icon: (props) => (
+      icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
             fillRule="evenodd"
@@ -65,7 +65,7 @@ const footerNavigation = {
     {
       name: 'Instagram',
       href: '#',
-      icon: (props) => (
+      icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
             fillRule="evenodd"
@@ -78,7 +78,7 @@ const footerNavigation = {
     {
       name: 'Twitter',
       href: '#',
-      icon: (props) => (
+      icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
         </svg>
@@ -87,7 +87,7 @@ const footerNavigation = {
     {
       name: 'GitHub',
       href: '#',
-      icon: (props) => (
+      icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
             fillRule="evenodd"
@@ -118,10 +118,10 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
         <Popover className="relative bg-white">
           <div className="flex items-center justify-between px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <a href="#">
+              <Link href="/">
                 <span className="sr-only">StrollDog</span>
                 <Logo className="h-8 w-auto sm:h-10 text-amber-600" />
-              </a>
+              </Link>
             </div>
             <div className="-my-2 -mr-2 md:hidden">
               <Popover.Button
@@ -265,7 +265,7 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
             leaveTo="opacity-0 scale-95"
           >
             <Popover.Panel focus
-                           className="absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden">
+                           className="z-20 absolute inset-x-0 top-0 origin-top-right transform p-2 transition md:hidden">
               <div className="divide-y-2 divide-gray-50 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="px-5 pt-5 pb-6">
                   <div className="flex items-center justify-between">

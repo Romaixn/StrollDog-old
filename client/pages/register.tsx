@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { GetServerSideProps, NextPage } from 'next'
-import Head from "next/head";
+import { Meta } from "../components/shared/Meta";
 import { useRouter } from 'next/router';
 import { Layout } from '../components/auth/Layout';
 import { ErrorMessage, Formik } from "formik";
@@ -13,9 +13,7 @@ const Register: NextPage = () => {
 
   return (
     <Layout>
-      <Head>
-        <title>S'inscrire</title>
-      </Head>
+      <Meta title="Inscrivez-vous" description="Inscrivez-vous pour profiter pleinement de la plateforme" />
       <div>
         <Logo className="h-12 w-auto text-amber-600" />
         <h2 className="mt-6 text-3xl tracking-tight font-bold text-gray-900">Inscrivez-vous</h2>

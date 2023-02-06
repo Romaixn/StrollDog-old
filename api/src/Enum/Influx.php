@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\GetCollection;
 enum Influx: string
 {
     use EnumApiResourceTrait;
+
     case LOW = 'low';
     case MODERATE = 'moderate';
     case HIGH = 'high';

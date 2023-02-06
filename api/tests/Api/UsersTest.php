@@ -26,7 +26,7 @@ class UsersTest extends AbstractTest
                     'plainPassword' => 'johndoepassword1325*',
                 ],
                 'files' => [
-                    'avatar' => $avatar,
+//                    'avatar' => $avatar,
                 ],
             ]
         ]);

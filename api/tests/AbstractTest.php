@@ -17,14 +17,17 @@ abstract class AbstractTest extends ApiTestCase
         self::bootKernel();
     }
 
-    protected function createClientWithCredentials($token = null): Client
+    protected function createClientWithCredentials(string $token = null): Client
     {
         $token = $token ?? $this->getToken();
 
         return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token]]);
     }
 
-    protected function getToken($body = []): string
+    /**
+     * @param array<string, string>|null $body
+     */
+    protected function getToken(?array $body = null): string
     {
         if($this->token) {
             return $this->token;
@@ -37,8 +40,11 @@ abstract class AbstractTest extends ApiTestCase
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($response->getContent(), false, 512, JSON_THROW_ON_ERROR);
+
+        /** @phpstan-ignore-next-line */
         $this->token = $data->token;
 
+        /** @phpstan-ignore-next-line */
         return $data->token;
     }
 }

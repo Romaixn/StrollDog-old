@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import Image from 'next/image'
 import banner from '../../images/banner.jpg';
 
@@ -22,6 +22,7 @@ export const Layout: FunctionComponent<Props> = ({ children }) => {
                 src={banner}
                 className="h-full"
                 alt="3 people walking in a forest with their dogs"
+                // @ts-ignore
                 layout="fill"
                 placeholder="blur"
               />
