@@ -15,7 +15,9 @@ const Register: NextPage = () => {
     <Layout>
       <Meta title="Inscrivez-vous" description="Inscrivez-vous pour profiter pleinement de la plateforme" />
       <div>
-        <Logo className="h-12 w-auto text-amber-600" />
+        <Link href="/">
+          <Logo className="h-12 w-auto text-amber-600" />
+        </Link>
         <h2 className="mt-6 text-3xl tracking-tight font-bold text-gray-900">Inscrivez-vous</h2>
         <p className="mt-2 text-sm text-gray-600">
           Ou{' '}

@@ -15,10 +15,10 @@ class PlacesTest extends AbstractTest
     {
         $response = static::createClient()->request('GET', '/places');
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        $this->assertJsonContains([
+        self::assertJsonContains([
             '@context' => '/contexts/Place',
             '@id' => '/places',
             '@type' => 'hydra:Collection',
@@ -33,7 +33,7 @@ class PlacesTest extends AbstractTest
         ]);
 
         $this->assertCount(30, $response->toArray()['hydra:member']);
-        $this->assertMatchesResourceCollectionJsonSchema(Place::class);
+        self::assertMatchesResourceCollectionJsonSchema(Place::class);
     }
 
     public function testCreatePlaceErrorWithoutLogin(): void
@@ -48,8 +48,8 @@ class PlacesTest extends AbstractTest
             ],
         ]);
 
-        $this->assertResponseStatusCodeSame(401);
-        $this->assertJsonContains(['message' => 'JWT Token not found']);
+        self::assertResponseStatusCodeSame(401);
+        self::assertJsonContains(['message' => 'JWT Token not found']);
     }
 
     public function testCreatePlaceWithLogin(): void
@@ -64,10 +64,10 @@ class PlacesTest extends AbstractTest
             ],
         ]);
 
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+        self::assertResponseIsSuccessful();
+        self::assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
 
-        $this->assertJsonContains([
+        self::assertJsonContains([
             '@context' => '/contexts/Place',
             'title' => 'Test',
             'description' => 'Test',
@@ -76,6 +76,6 @@ class PlacesTest extends AbstractTest
             'postalCode' => '00000'
         ]);
 
-        $this->assertMatchesResourceItemJsonSchema(Place::class);
+        self::assertMatchesResourceItemJsonSchema(Place::class);
     }
 }
