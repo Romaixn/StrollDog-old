@@ -20,10 +20,6 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    App\OpenApi\JwtDecorator:
-        decorates: 'api_platform.openapi.factory'
-        arguments: ['@.inner']
-
     App\State\UserPasswordHasher:
         bind:
             $processor: '@api_platform.doctrine.orm.state.persist_processor'

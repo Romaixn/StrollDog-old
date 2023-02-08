@@ -5,3 +5,7 @@ lexik_jwt_authentication:
     token_ttl: 3600 # in seconds, default is 3600
 
     user_identity_field: email
+    
+    api_platform:
+        check_path: /auth
+        username_path: email

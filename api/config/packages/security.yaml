@@ -12,15 +12,18 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        login:
+            pattern: ^/auth
             stateless: true
-            provider: users
             json_login:
-                check_path: auth
+                check_path: /auth
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        api:
+            pattern: ^/
+            stateless: true
             jwt: ~
 
     access_control:

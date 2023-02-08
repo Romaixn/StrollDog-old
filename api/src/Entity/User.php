@@ -32,7 +32,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ApiResource(
     types: ['https://schema.org/User'],
     normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:create', 'user:update']]
+    denormalizationContext: ['groups' => ['user:create', 'user:update']],
+    extraProperties: [
+        'standard_put' => true
+    ]
 )]
 #[Get]
 #[GetCollection(security: "is_granted('ROLE_ADMIN')")]

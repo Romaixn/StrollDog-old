@@ -23,7 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     types: ['https://schema.org/Type'],
     normalizationContext: ['groups' => ['type:read']],
-    denormalizationContext: ['groups' => ['type:write']]
+    denormalizationContext: ['groups' => ['type:write']],
+    extraProperties: [
+        'standard_put' => true
+    ]
 )]
 #[Get]
 #[GetCollection]
