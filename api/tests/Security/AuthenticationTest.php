@@ -21,6 +21,7 @@ class AuthenticationTest extends ApiTestCase
         $user->setEmail('test@example.com');
         $user->setUsername('test');
         $user->setName('Test');
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword(
             $container->get('security.user_password_hasher')->hashPassword($user, '$3CR3T')
         );
@@ -49,7 +50,7 @@ class AuthenticationTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(401);
 
         // test authorized
-        $client->request('GET', '/places', ['auth_bearer' => $json['token']]);
+        $client->request('GET', '/users', ['headers' => ['authorization' => 'Bearer ' . $json['token']]]);
         $this->assertResponseIsSuccessful();
     }
 }
