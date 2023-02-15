@@ -54,7 +54,7 @@ class PlacesTest extends AbstractTest
 
     public function testCreatePlaceWithLogin(): void
     {
-        $response = $this->createClientWithCredentials()->request('POST', '/places', [
+        $this->createClientWithCredentials(isAdmin: false)->request('POST', '/places', [
             'json' => [
                 'title' => 'Test',
                 'description' => 'Test',

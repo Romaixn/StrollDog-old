@@ -17,9 +17,9 @@ abstract class AbstractTest extends ApiTestCase
         self::bootKernel();
     }
 
-    protected function createClientWithCredentials(string $token = null): Client
+    protected function createClientWithCredentials(string $token = null, bool $isAdmin = true): Client
     {
-        $token = $token ?? $this->getToken();
+        $token = $token ?? $this->getToken($isAdmin ? $this->getAdminBody() : $this->getUserBody());
 
         return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token]]);
     }
@@ -49,5 +49,27 @@ abstract class AbstractTest extends ApiTestCase
 
         /** @phpstan-ignore-next-line */
         return $data->token;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function getAdminBody(): array
+    {
+        return [
+            'email' => 'admin@stroll.dog',
+            'password' => 'admin',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function getUserBody(): array
+    {
+        return [
+            'email' => 'user@stroll.dog',
+            'password' => 'test',
+        ];
     }
 }
